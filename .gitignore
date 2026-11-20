@@ -1,0 +1,20 @@
+# Dependencies & Build outputs
+node_modules/
+dist/
+dist-ssr/
+
+# Tauri / Rust build artifacts
+src-tauri/target/
+
+# Compiled desktop binaries (hosted on release / web server)
+public/downloads/*.dmg
+public/downloads/*.exe
+public/downloads/*.msi
+public/downloads/*.AppImage
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.local
+.vscode/
+.idea/
