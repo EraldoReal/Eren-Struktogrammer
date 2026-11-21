@@ -1,6 +1,6 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.2",
   "macUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-macOS.dmg",
   "winUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-Windows.exe",
-  "notes": "Bugfix-Release v1.2.0: Screenshot-Zwischenablage repariert, robustes Laden/Speichern (.stgp/.stgr/.nsd/.xml), eindeutige IDs, Undo behält Dateipfad."
+  "notes": "Release v1.2.2: macOS Schließen-Button (×) & Zuletzt verwendet repariert, unbenutzter Tab wird beim Öffnen ersetzt, offizieller signierter Tauri-Updater & Universal macOS Build."
 }
