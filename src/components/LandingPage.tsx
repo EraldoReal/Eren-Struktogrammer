@@ -747,6 +747,102 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             ))}
           </div>
         </section>
+
+        {/* Best-Tools Suite */}
+        <section id="suite" className="bg-white border border-slate-300 rounded-lg p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900">
+              {isDe
+                ? 'Weitere Informatik-Tools aus der Best-Tools Suite'
+                : 'More Computer Science Tools from the Best-Tools Suite'}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              {isDe
+                ? 'Kostenlose, datenschutzfreundliche Werkzeuge für Informatik-Unterricht, Abitur und Studium — direkt im Browser oder als Desktop-App.'
+                : 'Free, privacy-friendly tools for computer science classes, exams, and university — directly in your browser or as a desktop app.'}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="https://strukto.best-tools.app"
+              className="group flex flex-col justify-between gap-4 p-4 sm:p-5 rounded-lg border border-blue-500 bg-white hover:shadow-sm transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-sm sm:text-base font-bold text-blue-600">
+                    Eren Struktogrammer
+                  </h3>
+                  <span className="shrink-0 px-2 py-0.5 text-[11px] font-mono font-medium rounded bg-slate-100 text-slate-600 border border-slate-200">
+                    DIN 66261
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isDe
+                    ? 'Moderner Struktogramm-Editor nach DIN 66261 (Nassi-Shneiderman) als Alternative zum klassischen HuS Struktogrammer — mit Verzweigungen, Schleifen, SVG/PNG-Export, 1-Klick-Screenshot sowie macOS- und Windows-App.'
+                    : 'Modern DIN 66261 (Nassi-Shneiderman) structogram editor as an alternative to classic HuS Struktogrammer — with branches, loops, SVG/PNG export, 1-click screenshot, and macOS/Windows desktop apps.'}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs font-mono text-blue-600 pt-1">
+                <span>strukto.best-tools.app</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </div>
+            </a>
+
+            <a
+              href="https://erm.best-tools.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col justify-between gap-4 p-4 sm:p-5 rounded-lg border border-slate-200 hover:border-blue-400 bg-white hover:shadow-sm transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                    {isDe ? 'ERM-Editor' : 'ERM Editor'}
+                  </h3>
+                  <span className="shrink-0 px-2 py-0.5 text-[11px] font-mono font-medium rounded bg-blue-50 text-blue-700 border border-blue-200">
+                    Chen &amp; Min-Max
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isDe
+                    ? 'Spezialisierter Editor für Entity-Relationship-Modelle in Chen- und Min-Max-Notation (Alternative zu yEd) — mit schwachen Entitäten, Auto-Layout, Live-Ableitung des Relationenmodells und SQL CREATE TABLE-Vorschau.'
+                    : 'Specialized editor for Entity-Relationship models in Chen and Min-Max notation (yEd alternative) — featuring weak entities, auto-layout, live relational schema derivation, and SQL CREATE TABLE preview.'}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs font-mono text-blue-600 pt-1">
+                <span>erm.best-tools.app</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </div>
+            </a>
+
+            <a
+              href="https://sql.best-tools.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col justify-between gap-4 p-4 sm:p-5 rounded-lg border border-slate-200 hover:border-blue-400 bg-white hover:shadow-sm transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                    SQL-Trainer
+                  </h3>
+                  <span className="shrink-0 px-2 py-0.5 text-[11px] font-mono font-medium rounded bg-slate-100 text-slate-600 border border-slate-200">
+                    SQLite Sandbox
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isDe
+                    ? 'Interaktiver SQL-Trainer & SQLite-Sandbox direkt im Browser — ideal, um die aus dem ERM-Editor abgeleiteten CREATE TABLE-Statements und Abfragen sofort auszuführen und zu üben.'
+                    : 'Interactive SQL trainer & SQLite sandbox right in your browser — ideal for running and practicing CREATE TABLE statements and queries derived from the ERM Editor.'}
+                </p>
+              </div>
+              <div className="flex items-center justify-between text-xs font-mono text-blue-600 pt-1">
+                <span>sql.best-tools.app</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </div>
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
