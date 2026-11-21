@@ -533,13 +533,39 @@ export const HelpModal: React.FC<HelpModalProps> = ({
                 }`}
               >
                 <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-100">
-                  Hinweis zu Datenschutz &amp; lokaler Verarbeitung
+                  {lang === 'de'
+                    ? 'Hinweis zu Datenschutz & lokaler Verarbeitung'
+                    : 'Privacy & Local Processing Notice'}
                 </h4>
                 <p>
-                  {t.app.title} verarbeitet alle Struktogramme, Projekte und Einstellungen
-                  ausschließlich lokal in Ihrem Browser bzw. auf Ihrem Gerät. Es findet
-                  keine Übertragung an externe Server statt, alle Schriftarten sind lokal
-                  eingebunden und es werden keine Tracking-Cookies eingesetzt.
+                  {lang === 'de'
+                    ? `${t.app.title} verarbeitet alle Struktogramme, Projekte und Einstellungen standardmäßig ausschließlich lokal in Ihrem Browser bzw. auf Ihrem Gerät. Alle Schriftarten sind lokal eingebunden und es werden keine Tracking-Cookies eingesetzt.`
+                    : `${t.app.title} processes all structograms, projects, and settings locally in your browser or on your device by default. All fonts are bundled locally and no tracking cookies are used.`}
+                </p>
+                <p>
+                  {lang === 'de'
+                    ? 'Optionales 24h-Link-Teilen: Wenn Sie aktiv „Datei → Link erstellen (24h)…“ auslösen, wird das Projekt vor dem Upload lokal per AES-GCM Ende-zu-Ende verschlüsselt. Der Server speichert ausschließlich die verschlüsselten Daten unter einer zufälligen Kurz-ID und löscht sie spätestens nach 24 Stunden automatisch. Der Entschlüsselungsschlüssel steht nur hinter dem „#“ im Link und wird niemals an den Server übertragen.'
+                    : 'Optional 24h Share Links: Only when you actively trigger “File → Create Share Link (24h)…” is the project encrypted locally using AES-GCM before upload. The server stores only the encrypted payload under a random short ID and deletes it automatically after at most 24 hours. The decryption key stays in the URL fragment (“#”) and is never sent to the server.'}
+                </p>
+                <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-100 pt-2">
+                  {lang === 'de'
+                    ? 'Webanalyse durch selbstgehostetes Umami'
+                    : 'Web Analytics via Self-Hosted Umami'}
+                </h4>
+                <p>
+                  {lang === 'de'
+                    ? 'Wir nutzen auf dieser Website das Open-Source-Analysetool Umami, um die Nutzung unserer Website statistisch auszuwerten und unser Angebot zu verbessern. Umami wird vollständig auf unseren eigenen Servern in Deutschland betrieben.'
+                    : 'We use the open-source analytics tool Umami on this website to statistically evaluate usage and improve our offering. Umami is operated entirely on our own servers in Germany.'}
+                </p>
+                <p>
+                  {lang === 'de'
+                    ? 'Das Tool verwendet keine Cookies und speichert keine personenbezogenen Daten. Ihre IP-Adresse wird nicht gespeichert, sondern unmittelbar nach dem Aufruf anonymisiert gehasht. Ein Rückschluss auf Ihre Person oder ein seitenübergreifendes Tracking (Cross-Site-Tracking) ist technisch ausgeschlossen.'
+                    : 'The tool does not use cookies and does not store personal data. Your IP address is not stored, but immediately anonymized via hashing upon request. Any identification of your person or cross-site tracking is technically excluded.'}
+                </p>
+                <p>
+                  {lang === 'de'
+                    ? 'Rechtsgrundlage für die Datenverarbeitung ist unser berechtigtes Interesse an der bedarfsgerechten Gestaltung und Optimierung unseres Webangebots gemäß Art. 6 Abs. 1 lit. f DSGVO.'
+                    : 'The legal basis for data processing is our legitimate interest in the needs-based design and optimization of our web offering pursuant to Art. 6(1)(f) GDPR.'}
                 </p>
               </div>
             </div>
