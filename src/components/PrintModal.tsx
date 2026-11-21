@@ -36,6 +36,7 @@ export const PrintModal: React.FC<PrintModalProps> = ({ isOpen, onClose }) => {
   }, [activeProject.diagrams, activeProject.activeDiagramId, scope]);
 
   const svgPreviews = useMemo(() => {
+    if (!isOpen) return []; // avoid re-rendering every diagram on each edit while closed
     return diagramsToPrint.map((doc) => ({
       id: doc.id,
       name: doc.name,
@@ -44,7 +45,7 @@ export const PrintModal: React.FC<PrintModalProps> = ({ isOpen, onClose }) => {
         padding: 8,
       }),
     }));
-  }, [diagramsToPrint, activeProject.globalStyle]);
+  }, [isOpen, diagramsToPrint, activeProject.globalStyle]);
 
   if (!isOpen) return null;
 

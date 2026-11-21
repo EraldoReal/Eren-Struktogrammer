@@ -5,6 +5,7 @@ import {
   createNode,
   createProject,
   createStruktogramm,
+  generateId,
 } from '../model/defaults';
 import {
   addSwitchCase as addSwitchCaseOp,
@@ -63,7 +64,7 @@ export interface ProjectHistory {
 function extractFileBaseName(filePath?: string): string | null {
   if (!filePath) return null;
   const fileName = filePath.split(/[/\\]/).pop() ?? '';
-  const stripped = fileName.replace(/\.(stgp|stpr|stgr|nsd|json)$/i, '').trim();
+  const stripped = fileName.replace(/\.(stgp|stpr|stgr|nsd|xml|json)$/i, '').trim();
   return stripped || null;
 }
 
@@ -96,6 +97,25 @@ function createSnapshot(project: ProjectDocument): ProjectSnapshot {
     globalStyle: project.globalStyle,
     printSettings: project.printSettings,
   };
+}
+
+/**
+ * Diagrams restored from an undo/redo snapshot keep the file association of the
+ * live diagram (a save after the snapshot was taken must not be forgotten) and
+ * count as modified, since they differ from what is on disk.
+ */
+function restoreSnapshotDiagrams(
+  snapshotDiagrams: readonly StruktogrammDocument[],
+  currentDiagrams: readonly StruktogrammDocument[]
+): StruktogrammDocument[] {
+  return snapshotDiagrams.map((d) => {
+    const live = currentDiagrams.find((c) => c.id === d.id);
+    return {
+      ...d,
+      ...(live?.filePath ? { filePath: live.filePath } : {}),
+      dirty: true,
+    };
+  });
 }
 
 function getMaxZIndex(diagrams: readonly StruktogrammDocument[]): number {
@@ -483,8 +503,13 @@ export const useEditorStore = create<EditorState>()((set, get) => {
     openProjectFromContent: (raw, filePath) => {
       const parsed = parseProject(raw);
       const derivedName = extractFileBaseName(filePath);
+      // A copied project file under a different path must not share an id with an open project.
+      const idClash = get().projects.some(
+        (p) => p.id === parsed.id && (!filePath || p.filePath !== filePath),
+      );
       const project: ProjectDocument = {
         ...parsed,
+        ...(idClash ? { id: generateId() } : {}),
         ...(derivedName ? { name: derivedName } : {}),
         ...(filePath ? { filePath } : {}),
         dirty: false,
@@ -928,8 +953,10 @@ export const useEditorStore = create<EditorState>()((set, get) => {
       const parsed = parseStruktogramm(raw);
       const project = get().getActiveProject();
       const count = project.diagrams.length;
+      const idTaken = project.diagrams.some((d) => d.id === parsed.id);
       const doc: StruktogrammDocument = {
         ...parsed,
+        ...(idTaken ? { id: generateId() } : {}),
         x: 40 + (count % 6) * 40,
         y: 40 + (count % 6) * 40,
         zIndex: getMaxZIndex(project.diagrams) + 1,
@@ -987,16 +1014,24 @@ export const useEditorStore = create<EditorState>()((set, get) => {
         if (!doc) return null;
 
         const adapter = getPlatformAdapter();
-        const isNsd = doc.filePath?.toLowerCase().endsWith('.nsd') ?? false;
-        const serialized = isNsd ? exportToNsdXml(doc) : serializeStruktogramm(doc);
+        const isNsdPath = (p?: string) => /\.(nsd|xml)$/i.test(p ?? '');
+        const serializeFor = (p?: string) =>
+          isNsdPath(p) ? exportToNsdXml(doc) : serializeStruktogramm(doc);
+        const serialized = serializeFor(doc.filePath);
 
         let savedPath: string | null = null;
         if (!saveAs && doc.filePath && adapter.writeTextFile) {
-          await adapter.writeTextFile(doc.filePath, serialized);
-          savedPath = doc.filePath;
-        } else {
+          try {
+            await adapter.writeTextFile(doc.filePath, serialized);
+            savedPath = doc.filePath;
+          } catch {
+            // No writable handle (e.g. web build, file from recent list): use the dialog.
+            savedPath = null;
+          }
+        }
+        if (!savedPath) {
           savedPath = await adapter.saveFileDialog(serialized, {
-            defaultName: `${doc.name || 'struktogramm'}.stgr`,
+            defaultName: `${doc.name || 'struktogramm'}${isNsdPath(doc.filePath) ? '.nsd' : '.stgr'}`,
             defaultPath: doc.filePath,
             filters: [
               { name: 'HuS Struktogramm (.stgr)', extensions: ['stgr', 'json'] },
@@ -1004,6 +1039,14 @@ export const useEditorStore = create<EditorState>()((set, get) => {
             ],
             mimeType: 'application/json',
           });
+          // The user may have picked a different format than the one we serialized.
+          if (savedPath && isNsdPath(savedPath) !== isNsdPath(doc.filePath) && adapter.writeTextFile) {
+            try {
+              await adapter.writeTextFile(savedPath, serializeFor(savedPath));
+            } catch {
+              // Best effort; keep what the dialog wrote.
+            }
+          }
         }
 
         if (!savedPath) return null;
@@ -1318,7 +1361,7 @@ export const useEditorStore = create<EditorState>()((set, get) => {
         const restoredProject: ProjectDocument = {
           ...current,
           name: previous.name,
-          diagrams: previous.diagrams,
+          diagrams: restoreSnapshotDiagrams(previous.diagrams, current.diagrams),
           activeDiagramId: previous.activeDiagramId,
           globalStyle: previous.globalStyle,
           printSettings: previous.printSettings,
@@ -1367,7 +1410,7 @@ export const useEditorStore = create<EditorState>()((set, get) => {
         const restoredProject: ProjectDocument = {
           ...current,
           name: nextSnapshot.name,
-          diagrams: nextSnapshot.diagrams,
+          diagrams: restoreSnapshotDiagrams(nextSnapshot.diagrams, current.diagrams),
           activeDiagramId: nextSnapshot.activeDiagramId,
           globalStyle: nextSnapshot.globalStyle,
           printSettings: nextSnapshot.printSettings,

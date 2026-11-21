@@ -161,7 +161,7 @@ export function insertNodeAt(
     return updated;
   });
 
-  return changed ? result : [...nodes];
+  return changed ? result : (nodes as DiagramNode[]);
 }
 
 /**
@@ -199,7 +199,7 @@ export function removeNodeById(
   }
 
   return {
-    nodes: removed !== null ? nextNodes : [...nodes],
+    nodes: removed !== null ? nextNodes : (nodes as DiagramNode[]),
     removed,
   };
 }
@@ -228,7 +228,7 @@ export function updateNodeById(
     return updated;
   });
 
-  return changed ? result : [...nodes];
+  return changed ? result : (nodes as DiagramNode[]);
 }
 
 function moveNodeInList(
@@ -240,7 +240,7 @@ function moveNodeInList(
   if (index !== -1) {
     const targetIndex = index + direction;
     if (targetIndex < 0 || targetIndex >= nodes.length) {
-      return [...nodes];
+      return nodes as DiagramNode[];
     }
     const copy = [...nodes];
     const temp = copy[index];
@@ -258,7 +258,7 @@ function moveNodeInList(
     return updated;
   });
 
-  return changed ? result : [...nodes];
+  return changed ? result : (nodes as DiagramNode[]);
 }
 
 /**

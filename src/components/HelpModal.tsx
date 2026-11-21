@@ -444,7 +444,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
                     <div>
                       <h3 className="font-semibold text-sm">macOS (Apple Silicon)</h3>
                       <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                        DMG-Installer · v1.1.0
+                        DMG-Installer · v1.2.0
                       </p>
                     </div>
                   </div>
@@ -471,7 +471,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({
                     <div>
                       <h3 className="font-semibold text-sm">Windows (64-Bit)</h3>
                       <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                        EXE-Installer (NSIS) · v1.1.0
+                        EXE-Installer (NSIS) · v1.2.0
                       </p>
                     </div>
                   </div>

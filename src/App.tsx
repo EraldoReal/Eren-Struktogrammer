@@ -206,9 +206,10 @@ export const App: React.FC = () => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     let unlistenClose: (() => void) | undefined;
+    let cancelled = false;
     if (getPlatformAdapter().isDesktop) {
       void import('@tauri-apps/api/window').then(async ({ getCurrentWindow }) => {
-        unlistenClose = await getCurrentWindow().onCloseRequested((event) => {
+        const unlisten = await getCurrentWindow().onCloseRequested((event) => {
           const state = useEditorStore.getState();
           const hasDirty = state.projects.some((p) => p.dirty);
           if (hasDirty) {
@@ -221,10 +222,14 @@ export const App: React.FC = () => {
             }
           }
         });
+        // Effect may have been cleaned up while the import/listen was pending (StrictMode).
+        if (cancelled) unlisten();
+        else unlistenClose = unlisten;
       });
     }
 
     return () => {
+      cancelled = true;
       window.removeEventListener('beforeunload', handleBeforeUnload);
       unlistenClose?.();
     };
@@ -234,9 +239,10 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (!getPlatformAdapter().isDesktop) return;
     let unlisten: (() => void) | undefined;
+    let cancelled = false;
 
     void import('@tauri-apps/api/event').then(async ({ listen }) => {
-      unlisten = await listen<string>('menu-action', (event) => {
+      const stop = await listen<string>('menu-action', (event) => {
         const state = useEditorStore.getState();
         const scale = state.appSettings.uiScale ?? 1;
         switch (event.payload) {
@@ -309,9 +315,13 @@ export const App: React.FC = () => {
             break;
         }
       });
+      // Effect may have been cleaned up while the import/listen was pending (StrictMode).
+      if (cancelled) stop();
+      else unlisten = stop;
     });
 
     return () => {
+      cancelled = true;
       unlisten?.();
     };
   }, []);

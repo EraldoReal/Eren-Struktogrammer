@@ -49,6 +49,7 @@ interface FileSystemWritableFileStreamLike {
 interface FileSystemFileHandleLike {
   name: string;
   getFile(): Promise<File>;
+  isSameEntry?(other: FileSystemFileHandleLike): Promise<boolean>;
   createWritable(): Promise<FileSystemWritableFileStreamLike>;
 }
 
@@ -141,6 +142,7 @@ function openFileViaInput(filters?: FileDialogFilter[]): Promise<OpenedFile | nu
 
     let settled = false;
     const cleanup = () => {
+      window.removeEventListener('focus', onFocus);
       if (input.parentNode) {
         input.parentNode.removeChild(input);
       }
@@ -170,6 +172,18 @@ function openFileViaInput(filters?: FileDialogFilter[]): Promise<OpenedFile | nu
       finish(null);
     });
 
+    // Browsers without the 'cancel' event: when the window regains focus and no file
+    // was chosen shortly after, treat the dialog as dismissed so the promise settles.
+    function onFocus() {
+      window.removeEventListener('focus', onFocus);
+      setTimeout(() => {
+        if (!settled && !(input.files && input.files.length > 0)) {
+          finish(null);
+        }
+      }, 1000);
+    }
+    window.addEventListener('focus', onFocus);
+
     document.body.appendChild(input);
     input.click();
   });
@@ -178,6 +192,35 @@ function openFileViaInput(filters?: FileDialogFilter[]): Promise<OpenedFile | nu
 export class WebPlatformAdapter implements PlatformAdapter {
   readonly isDesktop = false;
   private readonly fileHandles = new Map<string, FileSystemFileHandleLike>();
+
+  /**
+   * Registers a handle under a unique key. Browsers only expose the bare file name,
+   * so two different files called "plan.stgr" would otherwise overwrite each other's handle.
+   * A colliding name gets a " (n)" suffix before the extension.
+   */
+  private async registerHandle(handle: FileSystemFileHandleLike): Promise<string> {
+    const dot = handle.name.lastIndexOf('.');
+    const stem = dot > 0 ? handle.name.slice(0, dot) : handle.name;
+    const ext = dot > 0 ? handle.name.slice(dot) : '';
+    for (let n = 1; n < 1000; n++) {
+      const key = n === 1 ? handle.name : `${stem} (${n})${ext}`;
+      const existing = this.fileHandles.get(key);
+      if (!existing) {
+        this.fileHandles.set(key, handle);
+        return key;
+      }
+      try {
+        if (existing === handle || (await existing.isSameEntry?.(handle))) {
+          this.fileHandles.set(key, handle);
+          return key;
+        }
+      } catch {
+        // treat as different entry
+      }
+    }
+    this.fileHandles.set(handle.name, handle);
+    return handle.name;
+  }
 
   async openFileDialog(options?: OpenDialogOptions): Promise<OpenedFile | null> {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -197,11 +240,11 @@ export class WebPlatformAdapter implements PlatformAdapter {
         }
         const file = await handle.getFile();
         const opened = await readBrowserFile(file);
-        this.fileHandles.set(handle.name, handle);
-        cacheRecentFile(handle.name, opened.content);
+        const key = await this.registerHandle(handle);
+        cacheRecentFile(key, opened.content);
         return {
           ...opened,
-          path: handle.name,
+          path: key,
         };
       } catch (error) {
         if (isAbortError(error)) {
@@ -239,9 +282,9 @@ export class WebPlatformAdapter implements PlatformAdapter {
         const writable = await handle.createWritable();
         await writable.write(content);
         await writable.close();
-        this.fileHandles.set(handle.name, handle);
-        cacheRecentFile(handle.name, content);
-        return handle.name;
+        const key = await this.registerHandle(handle);
+        cacheRecentFile(key, content);
+        return key;
       } catch (error) {
         if (isAbortError(error)) {
           return null;

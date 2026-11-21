@@ -348,3 +348,37 @@ describe('editorStore - canvas view & settings', () => {
     expect(useEditorStore.getState().appSettings.customOperators?.[0]?.title).toBe('Modulo');
   });
 });
+
+describe('editorStore - review regressions', () => {
+  beforeEach(resetStore);
+
+  it('assigns a fresh id when the same diagram file is opened twice', () => {
+    const doc = createStruktogramm('Doppelt');
+    const raw = serializeStruktogramm(doc);
+    const a = useEditorStore.getState().openDiagramFromContent(raw, 'a.stgr');
+    const b = useEditorStore.getState().openDiagramFromContent(raw, 'a.stgr');
+    expect(a.id).not.toBe(b.id);
+    const ids = useEditorStore.getState().getActiveProject().diagrams.map((d) => d.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('keeps a diagram file path across undo', () => {
+    const store = useEditorStore.getState();
+    const diagId = store.getActiveProject().diagrams[0].id;
+    useEditorStore.getState().insertNode(
+      { diagramId: diagId, parentId: null, index: 0 },
+      'sequence',
+    );
+    // Simulate a save that assigned a path after the edit.
+    useEditorStore.setState((s) => ({
+      projects: s.projects.map((p) => ({
+        ...p,
+        diagrams: p.diagrams.map((d) => ({ ...d, filePath: 'x.stgr', dirty: false })),
+      })),
+    }));
+    useEditorStore.getState().undo();
+    const d = useEditorStore.getState().getActiveProject().diagrams[0];
+    expect(d.filePath).toBe('x.stgr');
+    expect(d.dirty).toBe(true);
+  });
+});

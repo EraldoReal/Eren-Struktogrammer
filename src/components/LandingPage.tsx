@@ -232,7 +232,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Eren Struktogrammer
             </span>
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[11px] font-mono bg-slate-100 text-slate-600 border border-slate-300">
-              DIN 66261 · v1.1.0
+              DIN 66261 · v1.2.0
             </span>
           </div>
 
@@ -552,8 +552,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <ShieldCheck className="w-4 h-4" />
               <span>
                 {isDe
-                  ? 'v1.1.0 · Desktop-Apps mit automatischem In-App-Update'
-                  : 'v1.1.0 · Desktop apps with built-in self-updater'}
+                  ? 'v1.2.0 · Desktop-Apps mit automatischem In-App-Update'
+                  : 'v1.2.0 · Desktop apps with built-in self-updater'}
               </span>
             </div>
             <h2 className="text-lg font-bold text-slate-900">

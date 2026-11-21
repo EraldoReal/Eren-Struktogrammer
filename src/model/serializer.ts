@@ -8,6 +8,7 @@ import type {
   DoWhileNode,
   ForNode,
   IfNode,
+  NodeStyle,
   ProjectDocument,
   SequenceNode,
   StruktogrammDocument,
@@ -124,6 +125,69 @@ export function serializeProject(project: ProjectDocument): string {
   return JSON.stringify(envelope, null, 2);
 }
 
+/**
+ * Recursively validates raw nodes: unknown/invalid entries are dropped, missing
+ * ids/text/labels get defaults and missing branch arrays become [].
+ */
+function normalizeNodes(raw: unknown): DiagramNode[] {
+  if (!Array.isArray(raw)) return [];
+  const out: DiagramNode[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue;
+    const n = item as Record<string, unknown>;
+    const base = {
+      id: typeof n.id === 'string' && n.id.length > 0 ? n.id : generateId(),
+      text: typeof n.text === 'string' ? n.text : '',
+      ...(n.style && typeof n.style === 'object' ? { style: n.style as NodeStyle } : {}),
+    };
+    const str = (v: unknown, d: string) => (typeof v === 'string' ? v : d);
+    switch (n.type) {
+      case 'sequence':
+      case 'subroutine':
+        out.push({ ...base, type: n.type });
+        break;
+      case 'if':
+        out.push({
+          ...base,
+          type: 'if',
+          trueLabel: str(n.trueLabel, 'Ja'),
+          falseLabel: str(n.falseLabel, 'Nein'),
+          thenBranch: normalizeNodes(n.thenBranch),
+          elseBranch: normalizeNodes(n.elseBranch),
+        });
+        break;
+      case 'switch': {
+        const cases: SwitchCase[] = Array.isArray(n.cases)
+          ? n.cases
+              .filter((c): c is Record<string, unknown> => !!c && typeof c === 'object')
+              .map((c, i) => ({
+                id: typeof c.id === 'string' && c.id.length > 0 ? c.id : generateId(),
+                label: str(c.label, `Fall ${i + 1}`),
+                body: normalizeNodes(c.body),
+              }))
+          : [];
+        out.push({
+          ...base,
+          type: 'switch',
+          cases,
+          hasDefault: typeof n.hasDefault === 'boolean' ? n.hasDefault : true,
+          defaultLabel: str(n.defaultLabel, 'Sonst'),
+          defaultBranch: normalizeNodes(n.defaultBranch),
+        });
+        break;
+      }
+      case 'while':
+      case 'doWhile':
+      case 'for':
+        out.push({ ...base, type: n.type, body: normalizeNodes(n.body) });
+        break;
+      default:
+        break;
+    }
+  }
+  return out;
+}
+
 function normalizeDocument(raw: Partial<StruktogrammDocument>): StruktogrammDocument {
   if (!Array.isArray(raw.nodes)) {
     throw new Error('Invalid StruktogrammDocument: missing "nodes" array.');
@@ -132,7 +196,7 @@ function normalizeDocument(raw: Partial<StruktogrammDocument>): StruktogrammDocu
     id: typeof raw.id === 'string' && raw.id.length > 0 ? raw.id : generateId(),
     name: typeof raw.name === 'string' ? raw.name : 'Unbenannt',
     parameterList: typeof raw.parameterList === 'string' ? raw.parameterList : '',
-    nodes: raw.nodes,
+    nodes: normalizeNodes(raw.nodes),
     ...(raw.style ? { style: raw.style } : {}),
     x: typeof raw.x === 'number' ? raw.x : 40,
     y: typeof raw.y === 'number' ? raw.y : 40,
@@ -208,7 +272,13 @@ export function parseProject(raw: string | Uint8Array): ProjectDocument {
     throw new Error('Invalid ProjectDocument: missing "diagrams" array.');
   }
 
-  const diagrams = projCandidate.diagrams.map((d) => normalizeDocument(d));
+  const seenIds = new Set<string>();
+  const diagrams = projCandidate.diagrams.map((d) => {
+    const doc = normalizeDocument(d);
+    if (seenIds.has(doc.id)) doc.id = generateId();
+    seenIds.add(doc.id);
+    return doc;
+  });
   const activeDiagramId =
     typeof projCandidate.activeDiagramId === 'string' &&
     diagrams.some((d) => d.id === projCandidate.activeDiagramId)
@@ -263,11 +333,15 @@ function decodeXmlEntities(value: string): string {
       case 'apos':
         return "'";
       default:
-        if (entity.startsWith('#x')) {
-          return String.fromCodePoint(parseInt(entity.slice(2), 16));
-        }
         if (entity.startsWith('#')) {
-          return String.fromCodePoint(parseInt(entity.slice(1), 10));
+          const code = entity.startsWith('#x')
+            ? parseInt(entity.slice(2), 16)
+            : parseInt(entity.slice(1), 10);
+          // Out-of-range / surrogate code points would make fromCodePoint throw.
+          if (!Number.isFinite(code) || code < 0 || code > 0x10ffff || (code >= 0xd800 && code <= 0xdfff)) {
+            return '\ufffd';
+          }
+          return String.fromCodePoint(code);
         }
         return _match;
     }
@@ -315,8 +389,12 @@ function parseXml(xml: string): XmlElement {
     const isSelfClosing = match[4] === '/';
 
     if (isClosing) {
-      if (stack.length > 0 && stack[stack.length - 1].tag === tag) {
-        stack.pop();
+      // Close the nearest matching open element; a stray closing tag is ignored.
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (stack[i].tag === tag) {
+          stack.length = i;
+          break;
+        }
       }
       continue;
     }
@@ -403,7 +481,9 @@ function parseNsdChildren(elements: XmlElement[]): DiagramNode[] {
       case 'case':
       case 'switch': {
         const lines = rawText.split(/\r?\n/).map(stripOuterQuotes);
-        const switchText = lines[0] || 'Auswahl';
+        // Our own export stores the switch text separately (multi-line safe).
+        const ownExport = el.attrs.switchText !== undefined;
+        const switchText = ownExport ? el.attrs.switchText || 'Auswahl' : lines[0] || 'Auswahl';
         const qCases = el.children.filter((c) => c.tag.toLowerCase() === 'qCase'.toLowerCase());
         const qDefault = findChild(el, 'qDefault');
 
@@ -425,12 +505,28 @@ function parseNsdChildren(elements: XmlElement[]): DiagramNode[] {
           });
           hasDefault = el.attrs.hasDefault !== 'false';
           defaultBranch = parseNsdChildren(qDefault.children);
+        } else if (ownExport && qCases.length > 0) {
+          // Own format: labelled qCases are the cases, the unlabelled one is the default.
+          qCases
+            .filter((qc) => qc.attrs.label !== undefined)
+            .forEach((qc, idx) => {
+              cases.push({
+                id: generateId(),
+                label: qc.attrs.label ?? `Fall ${idx + 1}`,
+                body: parseNsdChildren(qc.children),
+              });
+            });
+          hasDefault = el.attrs.hasDefault !== 'false';
+          const defaultEl = qCases.find((qc) => qc.attrs.label === undefined);
+          if (hasDefault && defaultEl) {
+            defaultBranch = parseNsdChildren(defaultEl.children);
+          }
         } else if (qCases.length > 0) {
           // Standard Structorizer format: last qCase corresponds to default unless its label is "%"
           const lastIdx = qCases.length - 1;
           const lastLabel = lines[lastIdx + 1];
           const treatLastAsDefault =
-            qCases.length > 1 && lastLabel !== undefined && lastLabel !== '%';
+            el.attrs.hasDefault !== 'false' && lastLabel !== undefined && lastLabel !== '%';
 
           const caseCount = treatLastAsDefault ? qCases.length - 1 : qCases.length;
           for (let i = 0; i < caseCount; i++) {
@@ -500,8 +596,17 @@ function parseNsdChildren(elements: XmlElement[]): DiagramNode[] {
         nodes.push(node);
         break;
       }
-      default:
+      default: {
+        // Keep unsupported Structorizer elements (try, parallel, jump, ...) visible
+        // instead of silently dropping them.
+        const node: SequenceNode = {
+          id: generateId(),
+          type: 'sequence',
+          text: text ? `[${el.tag}] ${text}` : `[Nicht unterstützt: ${el.tag}]`,
+        };
+        nodes.push(node);
         break;
+      }
     }
   }
 
@@ -557,10 +662,11 @@ function serializeNsdNodes(nodes: readonly DiagramNode[], level: number): string
           ].join('\n');
         }
         case 'switch': {
+          const oneLine = (v: string) => v.replace(/\r?\n/g, ' ');
           const caseLines = [
-            node.text,
-            ...node.cases.map((c) => c.label),
-            node.hasDefault ? node.defaultLabel : '%',
+            oneLine(node.text),
+            ...node.cases.map((c) => oneLine(c.label)),
+            node.hasDefault ? oneLine(node.defaultLabel) : '%',
           ].join('\n');
           const caseBlocks = node.cases.map((c) => {
             const bodyXml = serializeNsdNodes(c.body, level + 2);
@@ -571,7 +677,7 @@ function serializeNsdNodes(nodes: readonly DiagramNode[], level: number): string
             `${indent(level + 1)}<qCase>${defaultBodyXml ? `\n${defaultBodyXml}\n${indent(level + 1)}` : ''}</qCase>`
           );
           return [
-            `${pad}<case text="${escapeXmlAttr(caseLines)}" defaultLabel="${escapeXmlAttr(node.defaultLabel)}" hasDefault="${String(node.hasDefault)}" comment="" color="ffffff" disabled="0">`,
+            `${pad}<case text="${escapeXmlAttr(caseLines)}" switchText="${escapeXmlAttr(node.text)}" defaultLabel="${escapeXmlAttr(node.defaultLabel)}" hasDefault="${String(node.hasDefault)}" comment="" color="ffffff" disabled="0">`,
             ...caseBlocks,
             `${pad}</case>`,
           ].join('\n');

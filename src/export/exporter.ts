@@ -117,10 +117,11 @@ export async function exportPngFile(
 }
 
 function stripOuterSvg(svg: string): string {
-  const start = svg.indexOf('>');
+  // Skip the optional XML declaration, then the opening <svg ...> tag.
+  const open = /^\s*(?:<\?xml[^>]*\?>\s*)?<svg\b[^>]*>/.exec(svg);
   const end = svg.lastIndexOf('</svg>');
-  if (start === -1 || end === -1) return '';
-  return svg.slice(start + 1, end);
+  if (!open || end === -1 || end < open[0].length) return '';
+  return svg.slice(open[0].length, end);
 }
 
 /**

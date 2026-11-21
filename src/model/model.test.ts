@@ -342,3 +342,62 @@ describe('serializer', () => {
     expect(() => parseProject('{}')).toThrow(/missing "diagrams"/);
   });
 });
+
+describe('review regressions', () => {
+  it('normalizes nodes with missing branches and drops unknown node types', () => {
+    const doc = parseStruktogramm(
+      JSON.stringify({ nodes: [{ type: 'if', text: 'x' }, { type: 'bogus' }, null] }),
+    );
+    expect(doc.nodes).toHaveLength(1);
+    const n = doc.nodes[0] as { thenBranch: unknown[]; elseBranch: unknown[] };
+    expect(n.thenBranch).toEqual([]);
+    expect(n.elseBranch).toEqual([]);
+  });
+
+  it('dedupes diagram ids inside a project', () => {
+    const d = { id: 'same', nodes: [] };
+    const p = parseProject(JSON.stringify({ diagrams: [d, d] }));
+    expect(p.diagrams[0].id).not.toBe(p.diagrams[1].id);
+  });
+
+  it('keeps a default-only switch through NSD export and re-import', () => {
+    const sw = createNode('switch') as import('./types').SwitchNode;
+    sw.cases = [];
+    sw.hasDefault = true;
+    const doc = { ...createStruktogramm('t'), nodes: [sw] };
+    const back = parseStruktogramm(exportToNsdXml(doc));
+    const bsw = back.nodes[0] as import('./types').SwitchNode;
+    expect(bsw.hasDefault).toBe(true);
+    expect(bsw.cases).toHaveLength(0);
+  });
+});
+
+describe('review regressions (round 2)', () => {
+  it('round-trips multi-line switch text and labels through NSD', () => {
+    const sw = createNode('switch') as import('./types').SwitchNode;
+    sw.text = 'a\nb';
+    sw.cases = [{ id: 'c1', label: 'Fall 1', body: [] }];
+    sw.hasDefault = true;
+    const doc = { ...createStruktogramm('t'), nodes: [sw] };
+    const back = parseStruktogramm(exportToNsdXml(doc));
+    const b = back.nodes[0] as import('./types').SwitchNode;
+    expect(b.text).toBe('a\nb');
+    expect(b.cases.map((c) => c.label)).toEqual(['Fall 1']);
+    expect(b.hasDefault).toBe(true);
+  });
+
+  it('does not throw on out-of-range XML entities and keeps unsupported elements', () => {
+    const xml = `<root text="t"><children><parallel text="p&#x110000;"/><instruction text="i"/></children></root>`;
+    const doc = parseStruktogramm(xml);
+    expect(doc.nodes).toHaveLength(2);
+    expect((doc.nodes[0] as { text: string }).text).toContain('parallel');
+  });
+
+  it('returns the same array reference for no-op operations', () => {
+    const seq = createNode('sequence');
+    const nodes = [seq];
+    expect(updateNodeById(nodes, 'missing', (n) => n)).toBe(nodes);
+    expect(moveNodeUp(nodes, seq.id)).toBe(nodes);
+    expect(insertNodeAt(nodes, { parentId: 'missing', branchKey: 'then', index: 0 }, createNode('sequence'))).toBe(nodes);
+  });
+});

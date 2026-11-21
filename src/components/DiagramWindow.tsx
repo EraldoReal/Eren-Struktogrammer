@@ -122,7 +122,8 @@ export const DiagramWindow: React.FC<DiagramWindowProps> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
       setResizeWidth(null);
-      if (latestWidth !== doc.width) {
+      // Compare with the width at drag start: a plain click must not create a history entry.
+      if (latestWidth !== origWidth) {
         resizeDiagram(doc.id, latestWidth);
       }
     };
