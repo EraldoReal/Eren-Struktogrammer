@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { invoke } from '@tauri-apps/api/core';
+import { check, type Update } from '@tauri-apps/plugin-updater';
+import { relaunch } from '@tauri-apps/plugin-process';
+import { getVersion } from '@tauri-apps/api/app';
 import { CheckCircle2, Download, Loader2, RefreshCw, X, AlertCircle } from 'lucide-react';
 import { useEditorStore } from '../store/editorStore';
 
@@ -12,12 +14,12 @@ interface UpdateCheckResult {
   currentVersion: string;
   latestVersion: string;
   available: boolean;
-  downloadUrl: string;
   notes: string;
 }
 
 export const UpdateModal: React.FC<UpdateModalProps> = ({ isOpen, onClose }) => {
   const theme = useEditorStore((s) => s.appSettings.theme);
+  const language = useEditorStore((s) => s.appSettings.language);
   const isDark =
     theme === 'dark' ||
     (theme === 'system' &&
@@ -26,14 +28,34 @@ export const UpdateModal: React.FC<UpdateModalProps> = ({ isOpen, onClose }) => 
 
   const [status, setStatus] = useState<'checking' | 'ready' | 'installing' | 'error'>('checking');
   const [result, setResult] = useState<UpdateCheckResult | null>(null);
+  const [update, setUpdate] = useState<Update | null>(null);
+  const [progress, setProgress] = useState<{ done: number; total: number | null }>({
+    done: 0,
+    total: null,
+  });
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   const checkForUpdates = async () => {
     setStatus('checking');
     setErrorMsg('');
     try {
-      const res = await invoke<UpdateCheckResult>('check_app_update');
-      setResult(res);
+      const found = await check();
+      setUpdate(found);
+      if (found) {
+        setResult({
+          currentVersion: found.currentVersion,
+          latestVersion: found.version,
+          available: true,
+          notes: found.body ?? '',
+        });
+      } else {
+        setResult({
+          currentVersion: await getVersion(),
+          latestVersion: '',
+          available: false,
+          notes: '',
+        });
+      }
       setStatus('ready');
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : String(err));
@@ -50,11 +72,30 @@ export const UpdateModal: React.FC<UpdateModalProps> = ({ isOpen, onClose }) => 
   if (!isOpen) return null;
 
   const handleInstall = async () => {
-    if (!result?.downloadUrl) return;
+    if (!update) return;
+
+    // The app restarts after the install: never discard unsaved work silently.
+    const hasDirty = useEditorStore.getState().projects.some((p) => p.dirty);
+    if (hasDirty) {
+      const msg =
+        language === 'de'
+          ? 'Es gibt ungespeicherte Änderungen. Sie gehen beim Neustart verloren. Trotzdem aktualisieren?'
+          : 'You have unsaved changes that will be lost on restart. Update anyway?';
+      if (!window.confirm(msg)) return;
+    }
+
     setStatus('installing');
     setErrorMsg('');
+    setProgress({ done: 0, total: null });
     try {
-      await invoke<string>('install_app_update', { downloadUrl: result.downloadUrl });
+      await update.downloadAndInstall((event) => {
+        if (event.event === 'Started') {
+          setProgress({ done: 0, total: event.data.contentLength ?? null });
+        } else if (event.event === 'Progress') {
+          setProgress((prev) => ({ ...prev, done: prev.done + event.data.chunkLength }));
+        }
+      });
+      await relaunch();
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : String(err));
       setStatus('error');
@@ -111,6 +152,9 @@ export const UpdateModal: React.FC<UpdateModalProps> = ({ isOpen, onClose }) => 
               <div className="space-y-1">
                 <p className="font-medium">Update wird heruntergeladen &amp; installiert…</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {progress.total
+                    ? `${Math.round((progress.done / progress.total) * 100)} % – `
+                    : ''}
                   Die App startet anschließend automatisch neu.
                 </p>
               </div>

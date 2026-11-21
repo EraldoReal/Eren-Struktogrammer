@@ -2,6 +2,17 @@
 
 Alle Änderungen an **Eren Struktogrammer** (Deutsch & English).
 
+## [1.2.2] - 2026-11-21
+### Deutsch
+- Umstieg auf das offizielle Tauri-Updater-Plugin mit kryptografischer Signaturprüfung und GitHub Releases (`latest.json`).
+- Update-Dialog zeigt nun Download-Fortschritt an und warnt vor dem Neustart bei ungespeicherten Änderungen.
+- macOS-Desktop-App wird als Universal-Binary (Apple Silicon & Intel) gebaut; Windows aktualisiert nahtlos im Hintergrund.
+
+### English
+- Migrated to the official Tauri Updater plugin with cryptographic signature verification via GitHub Releases (`latest.json`).
+- Update modal now displays download progress and warns about unsaved changes before relaunching.
+- macOS desktop app is now built as a Universal binary (Apple Silicon & Intel); Windows updates seamlessly via the plugin.
+
 ## [1.2.1] - 2026-11-21
 ### Deutsch
 - macOS-App lässt sich wieder zuverlässig über das rote Schließen-Symbol (`×`) schließen; Bestätigungsdialog nutzt nun native Desktop-Dialoge.

@@ -1,7 +1,7 @@
 {
   "name": "hus-struktogrammer-modern",
   "private": true,
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Moderner, plattformübergreifender Nachbau des HuS Struktogrammers (DIN 66261)",
   "type": "module",
   "scripts": {
@@ -18,6 +18,8 @@
     "@tauri-apps/api": "^2.1.0",
     "@tauri-apps/plugin-dialog": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
+    "@tauri-apps/plugin-process": "^2.4.0",
+    "@tauri-apps/plugin-updater": "^2.14.1",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

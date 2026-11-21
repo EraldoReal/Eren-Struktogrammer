@@ -9,6 +9,22 @@ export interface ChangelogRelease {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.2.2',
+    date: '2026-11-21',
+    titleDe: 'Signierter Tauri-Updater & Universal-Build',
+    titleEn: 'Signed Tauri Updater & Universal macOS Build',
+    changesDe: [
+      'Umstieg auf das offizielle Tauri-Updater-Plugin mit kryptografischer Signaturprüfung und GitHub Releases (latest.json).',
+      'Update-Dialog zeigt nun Download-Fortschritt an und warnt vor dem Neustart bei ungespeicherten Änderungen.',
+      'macOS-Desktop-App wird als Universal-Binary (Apple Silicon & Intel) gebaut; Windows aktualisiert nahtlos im Hintergrund.',
+    ],
+    changesEn: [
+      'Migrated to the official Tauri Updater plugin with cryptographic signature verification via GitHub Releases (latest.json).',
+      'Update modal now displays download progress and warns about unsaved changes before relaunching.',
+      'macOS desktop app is now built as a Universal binary (Apple Silicon & Intel); Windows updates seamlessly via the plugin.',
+    ],
+  },
+  {
     version: '1.2.1',
     date: '2026-11-21',
     titleDe: 'macOS-Fenster, Zuletzt verwendet & Tab-Verhalten',

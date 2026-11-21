@@ -6,6 +6,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -13,7 +16,7 @@ jobs:
       matrix:
         include:
           - platform: macos-latest
-            args: ''
+            args: '--target universal-apple-darwin'
           - platform: windows-latest
             args: ''
           - platform: ubuntu-22.04
@@ -31,6 +34,8 @@ jobs:
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install Linux dependencies
         if: matrix.platform == 'ubuntu-22.04'
@@ -45,5 +50,12 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Eren Struktogrammer ${{ github.ref_name }}'
+          releaseBody: 'Siehe Änderungen in der Versionshistorie.'
+          releaseDraft: false
+          prerelease: false
           args: ${{ matrix.args }}

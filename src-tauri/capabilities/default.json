@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Default capability for the main window with dialog and filesystem access",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "core:window:allow-close",
@@ -18,10 +20,18 @@
     {
       "identifier": "fs:scope",
       "allow": [
-        { "path": "$APPCONFIG/**" },
-        { "path": "$DOCUMENT/**" },
-        { "path": "$HOME/**" }
+        {
+          "path": "$APPCONFIG/**"
+        },
+        {
+          "path": "$DOCUMENT/**"
+        },
+        {
+          "path": "$HOME/**"
+        }
       ]
-    }
+    },
+    "updater:default",
+    "process:allow-restart"
   ]
 }

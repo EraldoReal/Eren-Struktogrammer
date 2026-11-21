@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Eren Struktogrammer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "identifier": "de.hus.struktogrammer",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -38,14 +38,18 @@
     ],
     "fileAssociations": [
       {
-        "ext": ["stgr"],
+        "ext": [
+          "stgr"
+        ],
         "name": "HuS Struktogramm",
         "description": "HuS Struktogramm Diagramm (DIN 66261)",
         "mimeType": "application/x-hus-struktogramm",
         "role": "Editor"
       },
       {
-        "ext": ["stgp"],
+        "ext": [
+          "stgp"
+        ],
         "name": "HuS Struktogramm Projekt",
         "description": "HuS Struktogramm Projektdatei",
         "mimeType": "application/x-hus-struktogramm-project",
@@ -64,6 +68,15 @@
       "appimage": {
         "bundleMediaFramework": false
       }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEyQzNBN0VFRjNGNEYwM0QKUldROThQVHo3cWZEb2wxZnZuQ2lDNUczVGFQVGNUY0o4YTZ4TzRJYXVmZGY1bDV1ZXMxTXJkcjUK",
+      "endpoints": [
+        "https://github.com/EraldoReal/Eren-Struktogrammer/releases/latest/download/latest.json"
+      ]
     }
   }
 }
