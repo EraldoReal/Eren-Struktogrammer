@@ -1,6 +1,6 @@
 [package]
 name = "hus-struktogrammer-modern"
-version = "1.2.2"
+version = "1.2.3"
 description = "Moderner, plattformübergreifender Nachbau des HuS Struktogrammers (DIN 66261)"
 authors = ["HuS Struktogrammer"]
 edition = "2021"
