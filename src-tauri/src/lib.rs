@@ -150,6 +150,17 @@ fn install_app_update(download_url: String) -> Result<String, String> {
     }
 }
 
+#[tauri::command]
+fn read_file_by_path(path: String) -> Result<Option<Vec<u8>>, String> {
+    let p = std::path::Path::new(&path);
+    if !p.exists() {
+        return Ok(None);
+    }
+    std::fs::read(p)
+        .map(Some)
+        .map_err(|e| format!("Datei konnte nicht gelesen werden: {e}"))
+}
+
 #[cfg(target_os = "macos")]
 fn build_macos_menu(app: &tauri::AppHandle) -> tauri::Result<tauri::menu::Menu<tauri::Wry>> {
     let app_menu = SubmenuBuilder::new(app, "Eren Struktogrammer")
@@ -234,7 +245,11 @@ pub fn run() {
         .on_menu_event(|app, event| {
             let _ = app.emit("menu-action", event.id().0.clone());
         })
-        .invoke_handler(tauri::generate_handler![check_app_update, install_app_update])
+        .invoke_handler(tauri::generate_handler![
+            check_app_update,
+            install_app_update,
+            read_file_by_path
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

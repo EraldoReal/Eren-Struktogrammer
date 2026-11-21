@@ -1,3 +1,4 @@
+import { invoke } from '@tauri-apps/api/core';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import {
   BaseDirectory,
@@ -72,11 +73,11 @@ export class TauriPlatformAdapter implements PlatformAdapter {
   }
 
   async readFileByPath(path: string): Promise<OpenedFile | null> {
-    const fileExists = await exists(path);
-    if (!fileExists) {
+    const raw = await invoke<number[] | null>('read_file_by_path', { path });
+    if (!raw) {
       return null;
     }
-    const bytes = await readFile(path);
+    const bytes = new Uint8Array(raw);
     const content = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
     return {
       name: extractFileName(path),

@@ -222,7 +222,7 @@ export const App: React.FC = () => {
     let cancelled = false;
     if (getPlatformAdapter().isDesktop) {
       void import('@tauri-apps/api/window').then(async ({ getCurrentWindow }) => {
-        const unlisten = await getCurrentWindow().onCloseRequested((event) => {
+        const unlisten = await getCurrentWindow().onCloseRequested(async (event) => {
           const state = useEditorStore.getState();
           const hasDirty = state.projects.some((p) => p.dirty);
           if (hasDirty) {
@@ -230,7 +230,13 @@ export const App: React.FC = () => {
               state.appSettings.language === 'de'
                 ? 'Es gibt ungespeicherte Änderungen. App trotzdem schließen?'
                 : 'You have unsaved changes. Quit anyway?';
-            if (!window.confirm(msg)) {
+            const title =
+              state.appSettings.language === 'de'
+                ? 'Ungespeicherte Änderungen'
+                : 'Unsaved Changes';
+            const { confirm } = await import('@tauri-apps/plugin-dialog');
+            const confirmed = await confirm(msg, { title, kind: 'warning' });
+            if (!confirmed) {
               event.preventDefault();
             }
           }

@@ -9,6 +9,22 @@ export interface ChangelogRelease {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.2.1',
+    date: '2026-11-21',
+    titleDe: 'macOS-Fenster, Zuletzt verwendet & Tab-Verhalten',
+    titleEn: 'macOS Window Close, Recent Files & Tab Replacement',
+    changesDe: [
+      'macOS-App lässt sich wieder zuverlässig über das rote Schließen-Symbol (×) schließen; Bestätigungsdialog nutzt nun native Desktop-Dialoge.',
+      '„Zuletzt verwendet“ wird jetzt direkt beim Öffnen/Speichern gespeichert und über das Rust-Backend zuverlässig von jedem Dateipfad geladen.',
+      'Beim Öffnen eines Struktogramms oder Projekts wird ein unbenutzter, unveränderter Standard-Tab direkt ersetzt statt einen leeren Tab offen zu lassen.',
+    ],
+    changesEn: [
+      'Fixed closing the macOS app via the window close button (×) by granting window destroy permissions and using native confirmation dialogs.',
+      'Recent Files are now persisted immediately on open/save and loaded reliably from any path via the Rust backend.',
+      'Opening a diagram or project now replaces an unused, unmodified initial tab instead of leaving an empty tab behind.',
+    ],
+  },
+  {
     version: '1.2.0',
     date: '2026-11-21',
     titleDe: 'Stabilitäts- & Bugfix-Release',

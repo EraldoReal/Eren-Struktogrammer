@@ -191,6 +191,17 @@ function pushRecentFile(recentFiles: readonly string[], path?: string): string[]
   return [path, ...recentFiles.filter((p) => p !== path)].slice(0, 10);
 }
 
+function isUnusedProject(
+  project: ProjectDocument,
+  history: ProjectHistory | undefined,
+): boolean {
+  if (project.dirty || project.filePath) return false;
+  if (history && history.past.length > 0) return false;
+  return project.diagrams.every(
+    (d) => !d.dirty && !d.filePath && d.nodes.length === 0,
+  );
+}
+
 export interface EditorState {
   projects: ProjectDocument[];
   activeProjectId: string;
@@ -516,6 +527,14 @@ export const useEditorStore = create<EditorState>()((set, get) => {
       };
 
       set((state) => {
+        const nextSettings: AppSettings = {
+          ...state.appSettings,
+          recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
+        };
+        if (filePath) {
+          void getPlatformAdapter().saveSettings(nextSettings).catch(() => undefined);
+        }
+
         const existingIdx = filePath
           ? state.projects.findIndex((p) => p.filePath === filePath)
           : state.projects.findIndex((p) => p.id === project.id);
@@ -533,10 +552,30 @@ export const useEditorStore = create<EditorState>()((set, get) => {
             selectedDiagramId: project.activeDiagramId,
             selectedNodeId: null,
             editingNodeId: null,
-            appSettings: {
-              ...state.appSettings,
-              recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
-            },
+            appSettings: nextSettings,
+            lastError: null,
+          };
+        }
+
+        const activeIdx = state.projects.findIndex((p) => p.id === state.activeProjectId);
+        const activeProj = activeIdx !== -1 ? state.projects[activeIdx] : undefined;
+        if (
+          activeProj &&
+          isUnusedProject(activeProj, state.historyByProject[activeProj.id])
+        ) {
+          const nextProjects = [...state.projects];
+          nextProjects[activeIdx] = project;
+          const nextHistory = { ...state.historyByProject };
+          delete nextHistory[activeProj.id];
+          nextHistory[project.id] = { past: [], future: [] };
+          return {
+            projects: nextProjects,
+            activeProjectId: project.id,
+            historyByProject: nextHistory,
+            selectedDiagramId: project.activeDiagramId,
+            selectedNodeId: null,
+            editingNodeId: null,
+            appSettings: nextSettings,
             lastError: null,
           };
         }
@@ -551,10 +590,7 @@ export const useEditorStore = create<EditorState>()((set, get) => {
           selectedDiagramId: project.activeDiagramId,
           selectedNodeId: null,
           editingNodeId: null,
-          appSettings: {
-            ...state.appSettings,
-            recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
-          },
+          appSettings: nextSettings,
           lastError: null,
         };
       });
@@ -606,8 +642,12 @@ export const useEditorStore = create<EditorState>()((set, get) => {
               appSettings: nextSettings,
               lastError:
                 state.appSettings.language === 'de'
-                  ? `Datei „${path}“ wurde nicht gefunden oder ist nicht mehr im Browser-Cache.`
-                  : `File "${path}" was not found or is no longer cached.`,
+                  ? adapter.isDesktop
+                    ? `Datei „${path}“ wurde nicht gefunden.`
+                    : `Datei „${path}“ wurde nicht gefunden oder ist nicht mehr im Browser-Cache.`
+                  : adapter.isDesktop
+                    ? `File "${path}" was not found.`
+                    : `File "${path}" was not found or is no longer cached.`,
             };
           });
           return false;
@@ -676,12 +716,16 @@ export const useEditorStore = create<EditorState>()((set, get) => {
                 }
               : p
           );
+          const nextSettings: AppSettings = {
+            ...state.appSettings,
+            recentFiles: pushRecentFile(state.appSettings.recentFiles, savedPath ?? undefined),
+          };
+          if (savedPath) {
+            void getPlatformAdapter().saveSettings(nextSettings).catch(() => undefined);
+          }
           return {
             projects: nextProjects,
-            appSettings: {
-              ...state.appSettings,
-              recentFiles: pushRecentFile(state.appSettings.recentFiles, savedPath ?? undefined),
-            },
+            appSettings: nextSettings,
             lastError: null,
           };
         });
@@ -952,35 +996,75 @@ export const useEditorStore = create<EditorState>()((set, get) => {
     openDiagramFromContent: (raw, filePath) => {
       const parsed = parseStruktogramm(raw);
       const project = get().getActiveProject();
-      const count = project.diagrams.length;
-      const idTaken = project.diagrams.some((d) => d.id === parsed.id);
+      const replaceUnused = isUnusedProject(
+        project,
+        get().historyByProject[project.id],
+      );
+      const count = replaceUnused ? 0 : project.diagrams.length;
+      const idTaken = !replaceUnused && project.diagrams.some((d) => d.id === parsed.id);
       const doc: StruktogrammDocument = {
         ...parsed,
         ...(idTaken ? { id: generateId() } : {}),
         x: 40 + (count % 6) * 40,
         y: 40 + (count % 6) * 40,
-        zIndex: getMaxZIndex(project.diagrams) + 1,
+        zIndex: replaceUnused ? 1 : getMaxZIndex(project.diagrams) + 1,
         ...(filePath ? { filePath } : {}),
         dirty: false,
       };
 
-      mutateActiveProject((proj) => ({
-        ...proj,
-        diagrams: [...proj.diagrams, doc],
-        activeDiagramId: doc.id,
-        dirty: true,
-      }));
+      if (replaceUnused) {
+        set((state) => {
+          const nextSettings: AppSettings = {
+            ...state.appSettings,
+            recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
+          };
+          if (filePath) {
+            void getPlatformAdapter().saveSettings(nextSettings).catch(() => undefined);
+          }
+          return {
+            projects: state.projects.map((p) =>
+              p.id === project.id
+                ? {
+                    ...p,
+                    name: doc.name || p.name,
+                    diagrams: [doc],
+                    activeDiagramId: doc.id,
+                    dirty: false,
+                  }
+                : p,
+            ),
+            selectedDiagramId: doc.id,
+            selectedNodeId: null,
+            editingNodeId: null,
+            appSettings: nextSettings,
+            lastError: null,
+          };
+        });
+      } else {
+        mutateActiveProject((proj) => ({
+          ...proj,
+          diagrams: [...proj.diagrams, doc],
+          activeDiagramId: doc.id,
+          dirty: true,
+        }));
 
-      set((state) => ({
-        selectedDiagramId: doc.id,
-        selectedNodeId: null,
-        editingNodeId: null,
-        appSettings: {
-          ...state.appSettings,
-          recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
-        },
-        lastError: null,
-      }));
+        set((state) => {
+          const nextSettings: AppSettings = {
+            ...state.appSettings,
+            recentFiles: pushRecentFile(state.appSettings.recentFiles, filePath),
+          };
+          if (filePath) {
+            void getPlatformAdapter().saveSettings(nextSettings).catch(() => undefined);
+          }
+          return {
+            selectedDiagramId: doc.id,
+            selectedNodeId: null,
+            editingNodeId: null,
+            appSettings: nextSettings,
+            lastError: null,
+          };
+        });
+      }
 
       return doc;
     },
@@ -1051,25 +1135,31 @@ export const useEditorStore = create<EditorState>()((set, get) => {
 
         if (!savedPath) return null;
 
-        set((state) => ({
-          projects: state.projects.map((p) =>
-            p.id === project.id
-              ? {
-                  ...p,
-                  diagrams: p.diagrams.map((d) =>
-                    d.id === doc.id
-                      ? { ...d, filePath: savedPath ?? d.filePath, dirty: false }
-                      : d
-                  ),
-                }
-              : p
-          ),
-          appSettings: {
+        set((state) => {
+          const nextSettings: AppSettings = {
             ...state.appSettings,
             recentFiles: pushRecentFile(state.appSettings.recentFiles, savedPath ?? undefined),
-          },
-          lastError: null,
-        }));
+          };
+          if (savedPath) {
+            void getPlatformAdapter().saveSettings(nextSettings).catch(() => undefined);
+          }
+          return {
+            projects: state.projects.map((p) =>
+              p.id === project.id
+                ? {
+                    ...p,
+                    diagrams: p.diagrams.map((d) =>
+                      d.id === doc.id
+                        ? { ...d, filePath: savedPath ?? d.filePath, dirty: false }
+                        : d
+                    ),
+                  }
+                : p
+            ),
+            appSettings: nextSettings,
+            lastError: null,
+          };
+        });
 
         return savedPath;
       } catch (err) {

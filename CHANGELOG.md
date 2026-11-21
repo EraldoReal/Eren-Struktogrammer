@@ -2,6 +2,17 @@
 
 Alle Änderungen an **Eren Struktogrammer** (Deutsch & English).
 
+## [1.2.1] - 2026-11-21
+### Deutsch
+- macOS-App lässt sich wieder zuverlässig über das rote Schließen-Symbol (`×`) schließen; Bestätigungsdialog nutzt nun native Desktop-Dialoge.
+- „Zuletzt verwendet“ wird jetzt direkt beim Öffnen/Speichern gespeichert und über das Rust-Backend zuverlässig von jedem Dateipfad geladen.
+- Beim Öffnen eines Struktogramms oder Projekts wird ein unbenutzter, unveränderter Standard-Tab direkt ersetzt statt einen leeren Tab offen zu lassen.
+
+### English
+- Fixed closing the macOS app via the window close button (`×`) by granting window destroy permissions and using native confirmation dialogs.
+- Recent Files are now persisted immediately on open/save and loaded reliably from any path via the Rust backend.
+- Opening a diagram or project now replaces an unused, unmodified initial tab instead of leaving an empty tab behind.
+
 ## [1.2.0] - 2026-11-21
 ### Deutsch
 - 1-Klick-Screenshot in die Zwischenablage repariert (XML-Header im SVG-Combine sauber übersprungen).

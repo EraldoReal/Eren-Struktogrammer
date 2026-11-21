@@ -65,15 +65,34 @@ describe('editorStore - multi-project tabs', () => {
     expect(useEditorStore.getState().activeProjectId).not.toBe(secondId);
   });
 
-  it('opens a serialized project into a new tab', () => {
+  it('replaces an unused project tab on open, and opens a new tab when the current tab has changes', () => {
     const external = createProject('Externes Projekt');
     const json = serializeProject(external);
 
+    // Unused initial tab gets replaced
     const opened = useEditorStore.getState().openProjectFromContent(json, '/tmp/extern.stgp');
     expect(opened.name).toBe('extern');
-    expect(useEditorStore.getState().projects).toHaveLength(2);
+    expect(useEditorStore.getState().projects).toHaveLength(1);
     expect(useEditorStore.getState().activeProjectId).toBe(opened.id);
     expect(useEditorStore.getState().appSettings.recentFiles).toContain('/tmp/extern.stgp');
+
+    // Modify current tab, then open another project -> opens into a second tab
+    const diagId = useEditorStore.getState().getActiveProject().diagrams[0].id;
+    useEditorStore.getState().insertNode({ diagramId: diagId, parentId: null, index: 0 }, 'sequence');
+    const secondJson = serializeProject(createProject('Zweites Projekt'));
+    const second = useEditorStore.getState().openProjectFromContent(secondJson, '/tmp/second.stgp');
+    expect(useEditorStore.getState().projects).toHaveLength(2);
+    expect(useEditorStore.getState().activeProjectId).toBe(second.id);
+  });
+
+  it('replaces the empty placeholder diagram when opening a diagram in an unused tab', () => {
+    const doc = createStruktogramm('Sortieren');
+    const raw = serializeStruktogramm(doc);
+    const opened = useEditorStore.getState().openDiagramFromContent(raw, '/tmp/sortieren.stgr');
+    const project = useEditorStore.getState().getActiveProject();
+    expect(project.diagrams).toHaveLength(1);
+    expect(project.diagrams[0].id).toBe(opened.id);
+    expect(project.dirty).toBe(false);
   });
 });
 
@@ -124,7 +143,10 @@ describe('editorStore - 2D canvas diagrams & z-order', () => {
     expect(useEditorStore.getState().getActiveProject().diagrams).toHaveLength(1);
   });
 
-  it('opens a serialized diagram onto the active project 2D canvas', () => {
+  it('opens a serialized diagram onto the active project 2D canvas when project already has content', () => {
+    const initialDiagId = useEditorStore.getState().getActiveProject().diagrams[0].id;
+    useEditorStore.getState().insertNode({ diagramId: initialDiagId, parentId: null, index: 0 }, 'sequence');
+
     const extDiag = createStruktogramm('Importiert');
     const raw = serializeStruktogramm(extDiag);
 
