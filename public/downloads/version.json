@@ -1,6 +1,6 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "macUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-macOS.dmg",
   "winUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-Windows.exe",
-  "notes": "Release v1.2.2: macOS Schließen-Button (×) & Zuletzt verwendet repariert, unbenutzter Tab wird beim Öffnen ersetzt, offizieller signierter Tauri-Updater & Universal macOS Build."
+  "notes": "Release v1.2.3: Ende-zu-Ende-verschlüsseltes 24h-Link-Teilen unter Datei (Link erstellen / Link öffnen), automatisches Tab-Ersetzen und signierter Auto-Updater."
 }
