@@ -10,6 +10,7 @@ import { PrintModal } from './components/PrintModal';
 import { ProjectTabs } from './components/ProjectTabs';
 import { SeoSubPage, type SeoPageRoute } from './components/SeoPages';
 import { SettingsModal } from './components/SettingsModal';
+import { ShareModal } from './components/ShareModal';
 import { StatusBar } from './components/StatusBar';
 import { Toolbar } from './components/Toolbar';
 import { UpdateModal } from './components/UpdateModal';
@@ -17,6 +18,7 @@ import { WorkspaceCanvas } from './components/WorkspaceCanvas';
 import type { DiagramNode, InsertionTarget, NodeType } from './model/types';
 import { getPlatformAdapter, isTauriEnvironment } from './platform/adapter';
 import { useEditorStore } from './store/editorStore';
+import { fetchAndDecryptShare, parseShareInput } from './utils/shareLink';
 
 const TOOL_KEYS: NodeType[] = [
   'sequence',
@@ -135,6 +137,7 @@ export const App: React.FC = () => {
     navigateTo('/app');
   }, [navigateTo]);
   const [operatorsOpen, setOperatorsOpen] = useState(false);
+  const [shareModalMode, setShareModalMode] = useState<'create' | 'open' | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimerRef = useRef<number | null>(null);
 
@@ -182,6 +185,34 @@ export const App: React.FC = () => {
       }
     });
   }, [loadAppSettings]);
+
+  // Auto-open shared link (#s=ID.KEY) in URL hash
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleHashShare = async () => {
+      const hash = window.location.hash;
+      if (!hash.startsWith('#s=')) return;
+      if (!parseShareInput(hash)) return;
+
+      setCurrentPath('/app');
+      window.history.replaceState(null, '', '/app');
+      try {
+        const lang = useEditorStore.getState().appSettings.language;
+        const json = await fetchAndDecryptShare(hash, lang);
+        useEditorStore.getState().openProjectFromContent(json);
+        showToast(
+          lang === 'de'
+            ? 'Geteiltes Projekt geöffnet.'
+            : 'Shared project opened.',
+        );
+      } catch (err) {
+        useEditorStore.setState({ lastError: (err as Error).message });
+      }
+    };
+    void handleHashShare();
+    window.addEventListener('hashchange', handleHashShare);
+    return () => window.removeEventListener('hashchange', handleHashShare);
+  }, [showToast]);
 
   // Listen to OS color scheme changes when theme === 'system'
   useEffect(() => {
@@ -279,6 +310,12 @@ export const App: React.FC = () => {
             break;
           case 'file-save-project-as':
             void state.saveProjectFile(true);
+            break;
+          case 'file-share-create':
+            setShareModalMode('create');
+            break;
+          case 'file-share-open':
+            setShareModalMode('open');
             break;
           case 'file-print':
             setPrintOpen(true);
@@ -629,6 +666,8 @@ export const App: React.FC = () => {
             setHelpOpen(true);
           }}
           onOpenUpdate={() => setUpdateOpen(true)}
+          onCreateShareLink={() => setShareModalMode('create')}
+          onOpenShareLink={() => setShareModalMode('open')}
         />
         <ProjectTabs />
         <Toolbar
@@ -702,6 +741,12 @@ export const App: React.FC = () => {
         isOpen={updateOpen}
         onClose={() => setUpdateOpen(false)}
       />
+      {shareModalMode && (
+        <ShareModal
+          mode={shareModalMode}
+          onClose={() => setShareModalMode(null)}
+        />
+      )}
       <NodeStyleModal
         target={nodeStyleTarget}
         onClose={() => setNodeStyleTarget(null)}

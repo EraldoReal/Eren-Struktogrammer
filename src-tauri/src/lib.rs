@@ -37,6 +37,9 @@ fn build_macos_menu(app: &tauri::AppHandle) -> tauri::Result<tauri::menu::Menu<t
         .item(&MenuItemBuilder::with_id("file-save-project", "Projekt speichern").accelerator("CmdOrCtrl+S").build(app)?)
         .item(&MenuItemBuilder::with_id("file-save-project-as", "Projekt speichern unter…").accelerator("CmdOrCtrl+Shift+S").build(app)?)
         .separator()
+        .item(&MenuItemBuilder::with_id("file-share-create", "Link erstellen (24h)…").build(app)?)
+        .item(&MenuItemBuilder::with_id("file-share-open", "Link öffnen…").build(app)?)
+        .separator()
         .item(&MenuItemBuilder::with_id("file-print", "Drucken…").accelerator("CmdOrCtrl+P").build(app)?)
         .build()?;
 

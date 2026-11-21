@@ -16,6 +16,8 @@ export interface MenuBarProps {
   onOpenPrint: () => void;
   onOpenHelp: (tab?: HelpTab) => void;
   onOpenUpdate?: () => void;
+  onCreateShareLink?: () => void;
+  onOpenShareLink?: () => void;
 }
 
 type MenuKey = 'file' | 'edit' | 'insert' | 'view' | 'options' | 'help';
@@ -135,6 +137,8 @@ export const MenuBar: React.FC<MenuBarProps> = ({
   onOpenPrint,
   onOpenHelp,
   onOpenUpdate,
+  onCreateShareLink,
+  onOpenShareLink,
 }) => {
   const isDesktop = getPlatformAdapter().isDesktop;
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null);
@@ -429,6 +433,16 @@ export const MenuBar: React.FC<MenuBarProps> = ({
                         </div>
                       )}
                     </div>
+
+                    <MenuDivider />
+                    <MenuItem
+                      label={t.menu.createShareLink}
+                      onClick={() => closeAndRun(() => onCreateShareLink?.())}
+                    />
+                    <MenuItem
+                      label={t.menu.openShareLink}
+                      onClick={() => closeAndRun(() => onOpenShareLink?.())}
+                    />
 
                     <MenuDivider />
                     <MenuItem

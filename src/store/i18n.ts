@@ -29,6 +29,8 @@ export interface Translations {
     print: string;
     recentFiles: string;
     noRecentFiles: string;
+    createShareLink: string;
+    openShareLink: string;
     undo: string;
     redo: string;
     cut: string;
@@ -227,6 +229,8 @@ const de: Translations = {
     print: 'Drucken / PDF…',
     recentFiles: 'Zuletzt verwendet',
     noRecentFiles: 'Keine zuletzt verwendeten Dateien',
+    createShareLink: 'Link erstellen (24h)…',
+    openShareLink: 'Link öffnen…',
     undo: 'Rückgängig',
     redo: 'Wiederholen',
     cut: 'Ausschneiden',
@@ -427,6 +431,8 @@ const en: Translations = {
     print: 'Print / PDF…',
     recentFiles: 'Recent Files',
     noRecentFiles: 'No recent files',
+    createShareLink: 'Create Share Link (24h)…',
+    openShareLink: 'Open Share Link…',
     undo: 'Undo',
     redo: 'Redo',
     cut: 'Cut',

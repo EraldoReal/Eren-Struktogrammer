@@ -5,6 +5,7 @@ import { serializeProject, serializeStruktogramm } from '../model/serializer';
 import type { IfNode, SwitchNode } from '../model/types';
 import { useEditorStore } from './editorStore';
 import { getTranslations } from './i18n';
+import { parseShareInput } from '../utils/shareLink';
 
 function resetStore() {
   const fresh = createProject('Testprojekt');
@@ -402,5 +403,21 @@ describe('editorStore - review regressions', () => {
     const d = useEditorStore.getState().getActiveProject().diagrams[0];
     expect(d.filePath).toBe('x.stgr');
     expect(d.dirty).toBe(true);
+  });
+
+  it('parses full share URLs, hash fragments, and short ID.KEY codes', () => {
+    expect(parseShareInput('https://strukto.best-tools.app/#s=A7K9M2.AbCdEfGhIjKlMnOpQrStUv')).toEqual({
+      id: 'A7K9M2',
+      key: 'AbCdEfGhIjKlMnOpQrStUv',
+    });
+    expect(parseShareInput('#s=a7k9m2.AbCdEfGhIjKlMnOpQrStUv')).toEqual({
+      id: 'A7K9M2',
+      key: 'AbCdEfGhIjKlMnOpQrStUv',
+    });
+    expect(parseShareInput('A7K9M2.AbCdEfGhIjKlMnOpQrStUv')).toEqual({
+      id: 'A7K9M2',
+      key: 'AbCdEfGhIjKlMnOpQrStUv',
+    });
+    expect(parseShareInput('invalid')).toBeNull();
   });
 });

@@ -2,6 +2,17 @@
 
 Alle Änderungen an **Eren Struktogrammer** (Deutsch & English).
 
+## [1.2.3] - 2026-11-21
+### Deutsch
+- Unter „Datei“ gibt es nun „Link erstellen (24h)…“ und „Link öffnen…“ zum schnellen Teilen von Struktogrammen im Unterricht.
+- Projekte werden vor dem Upload Ende-zu-Ende mit AES-GCM verschlüsselt und nach maximal 24 Stunden automatisch vom Server gelöscht.
+- Geteilte Links (`#s=...`) öffnen beim Aufruf direkt im Editor — in einem unbenutzten Tab oder als neuer Tab.
+
+### English
+- Added "Create Share Link (24h)…" and "Open Share Link…" under File for quick classroom sharing.
+- Projects are end-to-end encrypted with AES-GCM before upload and automatically deleted from the server after 24 hours.
+- Opening a shared link (`#s=...`) launches directly into the editor, replacing an unused tab or opening a new tab.
+
 ## [1.2.2] - 2026-11-21
 ### Deutsch
 - Umstieg auf das offizielle Tauri-Updater-Plugin mit kryptografischer Signaturprüfung und GitHub Releases (`latest.json`).
