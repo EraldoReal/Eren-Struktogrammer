@@ -12,6 +12,7 @@ import {
   Printer,
   ShieldCheck,
 } from 'lucide-react';
+import { CHANGELOG_RELEASES } from '../data/changelog';
 import { renderDiagramToSvgString } from '../engine/svgExport';
 import { createDefaultStyle } from '../model/defaults';
 import type { StruktogrammDocument } from '../model/types';
@@ -284,6 +285,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               className="hidden md:inline-block px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900"
             >
               FAQ
+            </a>
+            <a
+              href="#changelog"
+              className="hidden xl:inline-block px-2 py-1 text-xs font-medium text-slate-600 hover:text-slate-900"
+            >
+              Changelog
             </a>
 
             <a
@@ -688,6 +695,42 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </p>
             </div>
           </article>
+        </section>
+
+        {/* Changelog Section (Bilingual DE/EN) */}
+        <section id="changelog" className="bg-white border border-slate-300 rounded-lg p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="text-base font-bold text-slate-900">
+              {isDe ? 'Changelog & Versionshistorie' : 'Changelog & Release History'}
+            </h2>
+            <span className="text-[11px] font-mono text-slate-500">
+              {isDe ? 'Aktuell: v1.2.0' : 'Latest: v1.2.0'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {CHANGELOG_RELEASES.map((rel) => (
+              <div
+                key={rel.version}
+                className="rounded-md border border-slate-200 bg-slate-50/70 p-4 space-y-2.5"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                    v{rel.version}
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-500">{rel.date}</span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-semibold text-slate-900">
+                  {isDe ? rel.titleDe : rel.titleEn}
+                </h3>
+                <ul className="list-disc list-inside space-y-1 text-xs text-slate-600 leading-relaxed">
+                  {(isDe ? rel.changesDe : rel.changesEn).map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* FAQ (SEO) */}

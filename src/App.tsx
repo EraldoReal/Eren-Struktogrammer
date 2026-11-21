@@ -159,12 +159,25 @@ export const App: React.FC = () => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  // Load persisted settings on mount (and sync /en route language on landing page)
+  // Load persisted settings on mount (auto-detect DE vs international EN on first web visit)
   useEffect(() => {
     void loadAppSettings().then(() => {
       if (!isTauriEnvironment() && typeof window !== 'undefined') {
         if (window.location.pathname === '/en') {
           useEditorStore.getState().updateAppSettings({ language: 'en' });
+          return;
+        }
+        const hasSavedSettings = Boolean(
+          window.localStorage.getItem('hus-struktogrammer:settings')
+        );
+        if (!hasSavedSettings) {
+          const langs = navigator.languages?.length
+            ? navigator.languages
+            : [navigator.language || 'de'];
+          const isGerman = langs.some((l) => l.toLowerCase().startsWith('de'));
+          useEditorStore
+            .getState()
+            .updateAppSettings({ language: isGerman ? 'de' : 'en' });
         }
       }
     });
