@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Calendar, Clock, Play } from 'lucide-react';
 import { BLOG_POSTS, getBlogPostBySlug, type BlogPost } from '../data/blogPosts';
 import { renderDiagramToSvgString } from '../engine/svgExport';
@@ -27,33 +27,50 @@ export const BlogPage: React.FC<BlogPageProps> = ({
   const isDe = language === 'de';
 
   const [categoryFilter, setCategoryFilter] = useState<'all' | BlogPost['category']>('all');
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const post = slug ? getBlogPostBySlug(slug) : undefined;
 
   const basePath = isDe ? '/blog' : '/en/blog';
 
   useEffect(() => {
-    if (post) {
-      document.title = isDe ? post.metaTitleDe : post.metaTitleEn;
-      const descEl = document.querySelector('meta[name="description"]');
-      if (descEl) {
-        descEl.setAttribute('content', isDe ? post.metaDescriptionDe : post.metaDescriptionEn);
-      }
-    } else {
-      document.title = isDe
+    const title = post
+      ? isDe
+        ? post.metaTitleDe
+        : post.metaTitleEn
+      : isDe
         ? 'Struktogramm-Blog & Ratgeber (DIN 66261) | Eren Struktogrammer'
         : 'Structogram Blog & Guides (DIN 66261) | Eren Struktogrammer';
-      const descEl = document.querySelector('meta[name="description"]');
-      if (descEl) {
-        descEl.setAttribute(
+
+    const description = post
+      ? isDe
+        ? post.metaDescriptionDe
+        : post.metaDescriptionEn
+      : isDe
+        ? 'Anleitungen, Beispiele, Vergleiche (HuS & Nassi-Editoren) sowie Abitur-Tipps rund um Struktogramme nach DIN 66261.'
+        : 'Step-by-step guides, comparisons, and exam tips for DIN 66261 Nassi-Shneiderman structograms.';
+
+    document.title = title;
+    const descEl = document.querySelector('meta[name="description"]');
+    if (descEl) descEl.setAttribute('content', description);
+
+    if (post) {
+      const kwEl = document.querySelector('meta[name="keywords"]');
+      if (kwEl) {
+        kwEl.setAttribute(
           'content',
-          isDe
-            ? 'Anleitungen, Beispiele, Vergleiche (HuS & Nassi-Editoren) sowie Abitur-Tipps rund um Struktogramme nach DIN 66261.'
-            : 'Step-by-step guides, comparisons, and exam tips for DIN 66261 Nassi-Shneiderman structograms.',
+          (isDe ? post.keywordsDe : post.keywordsEn).join(', '),
         );
       }
     }
-    window.scrollTo({ top: 0 });
-  }, [post, isDe]);
+
+    const canonicalUrl = post
+      ? `https://strukto.best-tools.app${basePath}/${post.slug}`
+      : `https://strukto.best-tools.app${basePath}`;
+    const canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (canonicalEl) canonicalEl.setAttribute('href', canonicalUrl);
+
+    scrollRef.current?.scrollTo({ top: 0 });
+  }, [post, isDe, basePath]);
 
   const exampleSvg = useMemo(() => {
     if (!post?.exampleDiagram) return null;
@@ -85,14 +102,18 @@ export const BlogPage: React.FC<BlogPageProps> = ({
       : BLOG_POSTS.filter((p) => p.category === categoryFilter);
 
   const sections = post ? (isDe ? post.sectionsDe : post.sectionsEn) : [];
+  const faqs = post ? (isDe ? post.faqDe : post.faqEn) : undefined;
   const relatedPosts = post
-    ? BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3)
+    ? BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 6)
     : [];
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col">
+    <div
+      ref={scrollRef}
+      className="h-screen w-screen overflow-y-auto bg-slate-100 text-slate-900 select-text flex flex-col"
+    >
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-300 bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-slate-300 bg-white/95 backdrop-blur shrink-0">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <button
@@ -154,7 +175,11 @@ export const BlogPage: React.FC<BlogPageProps> = ({
             <section className="bg-white border border-slate-300 rounded-lg p-6 shadow-xs space-y-3">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>{isDe ? 'Ratgeber & Vergleiche' : 'Guides & Comparisons'}</span>
+                <span>
+                  {isDe
+                    ? `Ratgeber & Vergleiche (${BLOG_POSTS.length} Beiträge)`
+                    : `Guides & Comparisons (${BLOG_POSTS.length} Articles)`}
+                </span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
                 {isDe
@@ -163,7 +188,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               </h1>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
                 {isDe
-                  ? 'Schritt-für-Schritt-Anleitungen nach DIN 66261, Vergleiche mit klassischen Nassi-Editoren und dem HuS Struktogrammer sowie direkte Beispiel-Diagramme zum Ausprobieren.'
+                  ? 'Schritt-für-Schritt-Anleitungen nach DIN 66261, Vergleiche mit klassischen Nassi-Editoren und dem HuS Struktogrammer, Sortier- und Suchalgorithmen sowie direkte Beispiel-Diagramme zum Ausprobieren.'
                   : 'Step-by-step DIN 66261 tutorials, honest comparisons with classic Nassi editors and HuS Struktogrammer, plus interactive diagrams ready to open in the editor.'}
               </p>
 
@@ -171,7 +196,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               <div className="flex flex-wrap gap-2 pt-2">
                 {(
                   [
-                    { id: 'all', de: 'Alle Beiträge', en: 'All Posts' },
+                    { id: 'all', de: `Alle (${BLOG_POSTS.length})`, en: `All (${BLOG_POSTS.length})` },
                     { id: 'guide', de: 'Anleitungen & Beispiele', en: 'Guides & Examples' },
                     { id: 'comparison', de: 'Vergleiche', en: 'Comparisons' },
                     { id: 'exam', de: 'Prüfung & Theorie', en: 'Exams & Theory' },
@@ -300,6 +325,16 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                       ))}
                     </ul>
                   )}
+                  {sec.codeBlock && (
+                    <pre className="rounded-lg bg-slate-900 text-slate-100 p-4 text-xs sm:text-sm font-mono overflow-x-auto">
+                      <code>{sec.codeBlock.code}</code>
+                    </pre>
+                  )}
+                  {sec.callout && (
+                    <div className="rounded-lg border-l-4 border-blue-600 bg-blue-50/70 px-4 py-3 text-xs sm:text-sm text-slate-800 leading-relaxed">
+                      {sec.callout}
+                    </div>
+                  )}
                   {sec.table && (
                     <div className="overflow-x-auto rounded-lg border border-slate-200">
                       <table className="w-full text-left border-collapse text-xs sm:text-sm">
@@ -367,13 +402,30 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               </section>
             )}
 
+            {/* Article FAQ */}
+            {faqs && faqs.length > 0 && (
+              <section className="rounded-lg border border-slate-200 bg-slate-50/70 p-5 space-y-3">
+                <h3 className="text-base font-bold text-slate-900">
+                  {isDe ? 'Häufige Fragen zum Thema' : 'Frequently Asked Questions'}
+                </h3>
+                <div className="space-y-3">
+                  {faqs.map((f) => (
+                    <div key={f.q} className="space-y-1">
+                      <h4 className="text-xs sm:text-sm font-semibold text-slate-900">{f.q}</h4>
+                      <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">{f.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Related Articles */}
             <hr className="border-slate-200" />
             <section className="space-y-3">
               <h3 className="text-base font-bold text-slate-900">
                 {isDe ? 'Weitere Artikel im Blog' : 'More Articles'}
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {relatedPosts.map((rel) => (
                   <a
                     key={rel.slug}
@@ -399,7 +451,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-300 bg-white mt-4">
+      <footer className="border-t border-slate-300 bg-white mt-4 shrink-0">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <span>Eren Struktogrammer · DIN 66261 Editor</span>
           <div className="flex flex-wrap items-center gap-4">

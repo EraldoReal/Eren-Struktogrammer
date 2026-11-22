@@ -145,6 +145,78 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-in-python-java-umwandeln</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-python-java-umwandeln" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-python-java-umwandeln" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-in-python-java-umwandeln</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/rekursion-im-struktogramm-erklaert</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/rekursion-im-struktogramm-erklaert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/rekursion-im-struktogramm-erklaert" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/rekursion-im-struktogramm-erklaert</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-exportieren-svg-png-pdf-word</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-exportieren-svg-png-pdf-word" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-exportieren-svg-png-pdf-word" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-exportieren-svg-png-pdf-word</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/structorizer-nsd-dateien-konvertieren-oeffnen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/structorizer-nsd-dateien-konvertieren-oeffnen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/structorizer-nsd-dateien-konvertieren-oeffnen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/structorizer-nsd-dateien-konvertieren-oeffnen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-typische-fehler-vermeiden</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-typische-fehler-vermeiden" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-typische-fehler-vermeiden" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-typische-fehler-vermeiden</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://strukto.best-tools.app/app</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
