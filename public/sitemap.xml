@@ -32,7 +32,7 @@
   <url>
     <loc>https://strukto.best-tools.app/faq</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://strukto.best-tools.app/blog</loc>
@@ -57,6 +57,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-erstellen-anleitung</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-erstellen-anleitung" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-erstellen-anleitung" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -69,6 +71,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-schleifen-erklaert</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-schleifen-erklaert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-schleifen-erklaert" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -81,6 +85,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-verzweigung-switch-case</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-verzweigung-switch-case" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-verzweigung-switch-case" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -93,6 +99,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/besser-als-nassi-online-editoren</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/besser-als-nassi-online-editoren" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/besser-als-nassi-online-editoren" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -105,6 +113,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/vergleich-eren-struktogrammer-vs-hus</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/vergleich-eren-struktogrammer-vs-hus" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/vergleich-eren-struktogrammer-vs-hus" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -117,6 +127,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-vs-programmablaufplan-pap</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-vs-programmablaufplan-pap" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-vs-programmablaufplan-pap" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -129,6 +141,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/informatik-abitur-struktogramme-tipps</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/informatik-abitur-struktogramme-tipps" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/informatik-abitur-struktogramme-tipps" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -141,6 +155,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/unterprogramme-und-arrays-im-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/unterprogramme-und-arrays-im-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/unterprogramme-und-arrays-im-struktogramm" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -153,6 +169,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-in-python-java-umwandeln</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-python-java-umwandeln" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-python-java-umwandeln" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -165,6 +183,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/sortieralgorithmen-bubblesort-selectionsort-struktogramm" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -177,6 +197,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/rekursion-im-struktogramm-erklaert</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/rekursion-im-struktogramm-erklaert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/rekursion-im-struktogramm-erklaert" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -189,6 +211,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-exportieren-svg-png-pdf-word</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-exportieren-svg-png-pdf-word" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-exportieren-svg-png-pdf-word" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -201,6 +225,8 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/structorizer-nsd-dateien-konvertieren-oeffnen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/structorizer-nsd-dateien-konvertieren-oeffnen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/structorizer-nsd-dateien-konvertieren-oeffnen" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -213,6 +239,372 @@
   </url>
   <url>
     <loc>https://strukto.best-tools.app/en/blog/struktogramm-typische-fehler-vermeiden</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-typische-fehler-vermeiden" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-typische-fehler-vermeiden" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/binaere-suche-struktogramm-erklaert</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/binaere-suche-struktogramm-erklaert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/binaere-suche-struktogramm-erklaert" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/binaere-suche-struktogramm-erklaert</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/binaere-suche-struktogramm-erklaert" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/binaere-suche-struktogramm-erklaert" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/selectionsort-als-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/selectionsort-als-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/selectionsort-als-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/selectionsort-als-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/selectionsort-als-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/selectionsort-als-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/insertionsort-als-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/insertionsort-als-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/insertionsort-als-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/insertionsort-als-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/insertionsort-als-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/insertionsort-als-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/ggt-euklidischer-algorithmus-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/ggt-euklidischer-algorithmus-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/ggt-euklidischer-algorithmus-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/ggt-euklidischer-algorithmus-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/ggt-euklidischer-algorithmus-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/ggt-euklidischer-algorithmus-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/primzahl-pruefung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/primzahl-pruefung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/primzahl-pruefung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/primzahl-pruefung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/primzahl-pruefung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/primzahl-pruefung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/fibonacci-folge-iterativ-rekursiv-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/fibonacci-folge-iterativ-rekursiv-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/fibonacci-folge-iterativ-rekursiv-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/fibonacci-folge-iterativ-rekursiv-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/fibonacci-folge-iterativ-rekursiv-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/fibonacci-folge-iterativ-rekursiv-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/schaltjahr-berechnung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/schaltjahr-berechnung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/schaltjahr-berechnung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/schaltjahr-berechnung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/schaltjahr-berechnung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/schaltjahr-berechnung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/durchschnitt-summe-minmax-array-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/durchschnitt-summe-minmax-array-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/durchschnitt-summe-minmax-array-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/durchschnitt-summe-minmax-array-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/durchschnitt-summe-minmax-array-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/durchschnitt-summe-minmax-array-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/zweidimensionale-arrays-matrizen-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zweidimensionale-arrays-matrizen-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zweidimensionale-arrays-matrizen-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/zweidimensionale-arrays-matrizen-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zweidimensionale-arrays-matrizen-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zweidimensionale-arrays-matrizen-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/zeichenketten-strings-palindrome-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zeichenketten-strings-palindrome-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zeichenketten-strings-palindrome-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/zeichenketten-strings-palindrome-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zeichenketten-strings-palindrome-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zeichenketten-strings-palindrome-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/geldautomat-pin-pruefung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/geldautomat-pin-pruefung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/geldautomat-pin-pruefung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/geldautomat-pin-pruefung-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/geldautomat-pin-pruefung-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/geldautomat-pin-pruefung-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/taschenrechner-menue-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/taschenrechner-menue-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/taschenrechner-menue-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/taschenrechner-menue-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/taschenrechner-menue-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/taschenrechner-menue-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/verschachtelte-schleifen-verstehen-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/verschachtelte-schleifen-verstehen-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/verschachtelte-schleifen-verstehen-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/verschachtelte-schleifen-verstehen-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/verschachtelte-schleifen-verstehen-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/verschachtelte-schleifen-verstehen-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-in-c-cpp-csharp-uebersetzen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-c-cpp-csharp-uebersetzen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-c-cpp-csharp-uebersetzen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-in-c-cpp-csharp-uebersetzen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-c-cpp-csharp-uebersetzen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-c-cpp-csharp-uebersetzen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-in-javascript-typescript-umwandeln</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-javascript-typescript-umwandeln" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-javascript-typescript-umwandeln" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-in-javascript-typescript-umwandeln</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-javascript-typescript-umwandeln" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-javascript-typescript-umwandeln" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-in-php-uebersetzen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-php-uebersetzen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-php-uebersetzen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-in-php-uebersetzen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-in-php-uebersetzen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-in-php-uebersetzen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/ihk-fachinformatiker-ap1-ap2-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/ihk-fachinformatiker-ap1-ap2-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/ihk-fachinformatiker-ap1-ap2-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/ihk-fachinformatiker-ap1-ap2-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/ihk-fachinformatiker-ap1-ap2-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/ihk-fachinformatiker-ap1-ap2-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/informatik-abi-baden-wuerttemberg-operatoren</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/informatik-abi-baden-wuerttemberg-operatoren" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/informatik-abi-baden-wuerttemberg-operatoren" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/informatik-abi-baden-wuerttemberg-operatoren</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/informatik-abi-baden-wuerttemberg-operatoren" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/informatik-abi-baden-wuerttemberg-operatoren" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-fuer-lehrkraefte-arbeitsblaetter" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-ipad-chromebook-ohne-installation</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-ipad-chromebook-ohne-installation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-ipad-chromebook-ohne-installation" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-ipad-chromebook-ohne-installation</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-ipad-chromebook-ohne-installation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-ipad-chromebook-ohne-installation" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-vs-pseudocode-vergleich</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-vs-pseudocode-vergleich" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-vs-pseudocode-vergleich" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-vs-pseudocode-vergleich</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-vs-pseudocode-vergleich" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-vs-pseudocode-vergleich" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-vs-uml-aktivitaetsdiagramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-vs-uml-aktivitaetsdiagramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-vs-uml-aktivitaetsdiagramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-vs-uml-aktivitaetsdiagramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-vs-uml-aktivitaetsdiagramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-vs-uml-aktivitaetsdiagramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-datenbank-schleifen-sql-erm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-datenbank-schleifen-sql-erm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-datenbank-schleifen-sql-erm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-datenbank-schleifen-sql-erm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-datenbank-schleifen-sql-erm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-datenbank-schleifen-sql-erm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/zeitkomplexitaet-big-o-im-struktogramm-erkennen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/tracertabelle-schreibtischtest-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/tracertabelle-schreibtischtest-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/tracertabelle-schreibtischtest-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/tracertabelle-schreibtischtest-struktogramm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/tracertabelle-schreibtischtest-struktogramm" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/tracertabelle-schreibtischtest-struktogramm" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/blog/struktogramm-barrierefrei-drucken-dark-mode</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-barrierefrei-drucken-dark-mode" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-barrierefrei-drucken-dark-mode" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://strukto.best-tools.app/en/blog/struktogramm-barrierefrei-drucken-dark-mode</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://strukto.best-tools.app/blog/struktogramm-barrierefrei-drucken-dark-mode" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://strukto.best-tools.app/en/blog/struktogramm-barrierefrei-drucken-dark-mode" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

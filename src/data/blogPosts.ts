@@ -1,4 +1,6 @@
 import type { StruktogrammDocument } from '../model/types';
+import { BLOG_POSTS_PART_2 } from './blogPostsPart2';
+import { BLOG_POSTS_PART_3 } from './blogPostsPart3';
 
 export interface BlogSection {
   heading: string;
@@ -44,7 +46,7 @@ export interface BlogPost {
   exampleDiagram?: StruktogrammDocument;
 }
 
-export const BLOG_POSTS: BlogPost[] = [
+export const BLOG_POSTS_PART_1: BlogPost[] = [
   {
     slug: 'struktogramm-erstellen-anleitung',
     date: '2026-11-22',
@@ -1049,6 +1051,12 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
   },
+];
+
+export const BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_PART_1,
+  ...BLOG_POSTS_PART_2,
+  ...BLOG_POSTS_PART_3,
 ];
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
