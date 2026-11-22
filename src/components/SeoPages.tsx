@@ -433,6 +433,16 @@ export const SeoSubPage: React.FC<SeoPageProps> = ({
           <span>Eren Struktogrammer · DIN 66261 Editor · Eren Kazokoglu</span>
           <div className="flex items-center gap-4">
             <a
+              href="/blog"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/blog');
+              }}
+              className="hover:text-slate-900 underline underline-offset-4 font-medium"
+            >
+              Blog &amp; Ratgeber
+            </a>
+            <a
               href={GITHUB_REPO_URL}
               target="_blank"
               rel="noopener noreferrer"

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AlertCircle, CheckCircle2, X } from 'lucide-react';
+import { BlogPage } from './components/BlogPages';
 import { ContextMenu, type ContextMenuState } from './components/ContextMenu';
 import { HelpModal, type HelpTab } from './components/HelpModal';
 import { LandingPage } from './components/LandingPage';
@@ -166,7 +167,10 @@ export const App: React.FC = () => {
   useEffect(() => {
     void loadAppSettings().then(() => {
       if (!isTauriEnvironment() && typeof window !== 'undefined') {
-        if (window.location.pathname === '/en') {
+        if (
+          window.location.pathname === '/en' ||
+          window.location.pathname.startsWith('/en/')
+        ) {
           useEditorStore.getState().updateAppSettings({ language: 'en' });
           return;
         }
@@ -608,6 +612,38 @@ export const App: React.FC = () => {
     '/hus-struktogrammer-alternative',
     '/faq',
   ];
+
+  const isBlogRoute =
+    !isTauriEnvironment() &&
+    (currentPath === '/blog' ||
+      currentPath === '/en/blog' ||
+      currentPath.startsWith('/blog/') ||
+      currentPath.startsWith('/en/blog/'));
+
+  if (isBlogRoute) {
+    const blogSlug = currentPath
+      .replace(/^\/en\/blog\/?/, '')
+      .replace(/^\/blog\/?/, '')
+      .replace(/\/+$/, '');
+    return (
+      <>
+        <BlogPage
+          slug={blogSlug || undefined}
+          onNavigate={navigateTo}
+          onLaunchEditor={handleLaunchEditor}
+          onOpenImprint={() => {
+            setHelpTab('imprint');
+            setHelpOpen(true);
+          }}
+        />
+        <HelpModal
+          isOpen={helpOpen}
+          onClose={() => setHelpOpen(false)}
+          initialTab={helpTab}
+        />
+      </>
+    );
+  }
 
   if (!isTauriEnvironment() && seoRoutes.includes(currentPath as SeoPageRoute)) {
     return (

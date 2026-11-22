@@ -851,7 +851,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <span>
             Eren Struktogrammer · DIN 66261 Editor · Eren Kazokoglu
           </span>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href={isDe ? '/blog' : '/en/blog'}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate?.(isDe ? '/blog' : '/en/blog');
+              }}
+              className="hover:text-slate-900 underline underline-offset-4 font-medium"
+            >
+              {isDe ? 'Blog & Ratgeber' : 'Blog & Guides'}
+            </a>
             <a
               href={GITHUB_REPO_URL}
               target="_blank"
