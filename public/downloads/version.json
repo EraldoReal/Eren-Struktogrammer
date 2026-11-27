@@ -1,6 +1,6 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "macUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-macOS.dmg",
   "winUrl": "https://strukto.best-tools.app/downloads/Eren-Struktogrammer-Windows.exe",
-  "notes": "Release v1.2.3: Ende-zu-Ende-verschlüsseltes 24h-Link-Teilen unter Datei (Link erstellen / Link öffnen), automatisches Tab-Ersetzen und signierter Auto-Updater."
+  "notes": "Release v1.2.4: Switch-Case Kopfbereich ohne Überlappung, Undo für Switch-Labels, keine lokalen Dateipfade in Share-Links, native Bestätigungsdialoge."
 }
