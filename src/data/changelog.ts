@@ -9,6 +9,24 @@ export interface ChangelogRelease {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.2.4',
+    date: '2026-11-27',
+    titleDe: 'Fallunterscheidungs-Layout, Undo & Datenschutz bei Share-Links',
+    titleEn: 'Switch Layout, Undo & Share-Link Privacy Fixes',
+    changesDe: [
+      'Fallunterscheidung (Switch-Case): Kopfbereich wächst dynamisch mit, damit Fall-Beschriftungen nicht mehr mit der Diagonale überlappen.',
+      'Umbenennen von Switch-Case-Zweigen wird nun sauber in der Undo/Redo-Historie erfasst.',
+      'Share-Links entfernen beim Erstellen und Öffnen gespeicherte lokale Dateipfade, sodass keine Benutzernamen geleakt oder fremde Pfade überschrieben werden.',
+      'Bestätigungsdialoge bei ungespeicherten Änderungen nutzen in der Desktop-App durchgängig native Systemdialoge.',
+    ],
+    changesEn: [
+      'Switch-Case headers dynamically grow so case labels no longer overlap diagonal lines.',
+      'Editing Switch-Case branch labels now records clean Undo/Redo history entries.',
+      'Share links strip local file paths on creation and import, preventing path leaks and accidental overwrites.',
+      'Unsaved-changes prompts now consistently use native desktop confirmation dialogs.',
+    ],
+  },
+  {
     version: '1.2.3',
     date: '2026-11-21',
     titleDe: '24h-Link-Teilen (Ende-zu-Ende-verschlüsselt)',

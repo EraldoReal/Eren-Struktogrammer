@@ -2,6 +2,19 @@
 
 Alle Änderungen an **Eren Struktogrammer** (Deutsch & English).
 
+## [1.2.4] - 2026-11-27
+### Deutsch
+- Fallunterscheidung (Switch-Case): Kopfbereich wächst dynamisch mit, damit Fall-Beschriftungen nicht mehr mit der Diagonale überlappen.
+- Umbenennen von Switch-Case-Zweigen wird nun sauber in der Undo/Redo-Historie erfasst.
+- Share-Links entfernen beim Erstellen und Öffnen gespeicherte lokale Dateipfade, sodass keine Benutzernamen geleakt oder fremde Pfade überschrieben werden.
+- Bestätigungsdialoge bei ungespeicherten Änderungen nutzen in der Desktop-App durchgängig native Systemdialoge.
+
+### English
+- Switch-Case headers dynamically grow so case labels no longer overlap diagonal lines.
+- Editing Switch-Case branch labels now records clean Undo/Redo history entries.
+- Share links strip local file paths on creation and import, preventing path leaks and accidental overwrites.
+- Unsaved-changes prompts now consistently use native desktop confirmation dialogs.
+
 ## [1.2.3] - 2026-11-21
 ### Deutsch
 - Unter „Datei“ gibt es nun „Link erstellen (24h)…“ und „Link öffnen…“ zum schnellen Teilen von Struktogrammen im Unterricht.

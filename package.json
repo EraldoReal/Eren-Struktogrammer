@@ -1,7 +1,7 @@
 {
   "name": "hus-struktogrammer-modern",
   "private": true,
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Moderner, plattformübergreifender Nachbau des HuS Struktogrammers (DIN 66261)",
   "type": "module",
   "scripts": {

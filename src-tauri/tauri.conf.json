@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Eren Struktogrammer",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "identifier": "de.hus.struktogrammer",
   "build": {
     "beforeDevCommand": "npm run dev",
