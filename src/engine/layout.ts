@@ -786,7 +786,39 @@ function layoutSwitchNode(
 
   const exprHeight = exprLines.length * lineH + style.paddingY;
   const labelRowHeight = maxLabelLines * labelLineH + style.paddingY;
-  const headerHeight = Math.max(40, exprHeight + labelRowHeight);
+
+  // Column x offsets relative to the node, known before laying out the bodies.
+  const colOffsets: number[] = [];
+  {
+    let acc = 0;
+    for (const w of colWidths) {
+      colOffsets.push(acc);
+      acc += w;
+    }
+  }
+  const labelWidths = wrappedColLabels.map((ls) =>
+    Math.max(0, ...ls.map((l) => measureTextWidth(l, labelFontSize, style.fontFamily))),
+  );
+
+  // The header diagonals cut through the label row. Grow the header (within a
+  // limit) so each label's text fits between its column edge and the diagonal at
+  // the top of the text, which is where the free space is narrowest.
+  const labelTextH = maxLabelLines * labelLineH;
+  let headerHeight = Math.max(40, exprHeight + labelRowHeight);
+  if (cols.length >= 2) {
+    const lastRel = colOffsets[cols.length - 1];
+    const rightRel = width - lastRel;
+    const ratios: number[] = [];
+    for (let i = 0; i < cols.length - 1; i++) {
+      if (lastRel > 0) ratios.push((colOffsets[i] + labelWidths[i] + style.paddingX) / lastRel);
+    }
+    if (rightRel > 0) ratios.push((labelWidths[cols.length - 1] + style.paddingX) / rightRel);
+    const maxHeader = Math.max(headerHeight, exprHeight + labelRowHeight * 2.5);
+    for (const r of ratios) {
+      const needed = r >= 0.97 ? maxHeader : labelTextH / (1 - r);
+      headerHeight = Math.max(headerHeight, Math.min(maxHeader, Math.ceil(needed)));
+    }
+  }
 
   const branchY = y + headerHeight;
   const colResults: Array<{
@@ -868,15 +900,39 @@ function layoutSwitchNode(
     },
   ];
 
+  // Free horizontal span for each label at the top of its text, bounded by the
+  // column edges and the header diagonals. A label that does not fit is pushed
+  // away from the diagonal to the outer column edge.
+  const labelTopY = branchY - labelRowHeight;
+  const textTopY = branchY - labelTextH;
+  const tTop = headerHeight > 0 ? (textTopY - y) / headerHeight : 1;
+  const lastColXAbs =
+    colResults.length >= 2 ? colResults[colResults.length - 1].colX : x + width / 2;
+  const leftDiagX = x + tTop * (lastColXAbs - x);
+  const rightDiagX = x + width - tTop * (x + width - lastColXAbs);
+
   for (let i = 0; i < colResults.length; i++) {
     const c = colResults[i];
+    const isLast = i === colResults.length - 1;
+    let spanL = c.colX;
+    let spanR = c.colX + c.colW;
+    let align: 'left' | 'center' | 'right' = 'center';
+    if (colResults.length >= 2) {
+      if (isLast) spanL = Math.max(spanL, rightDiagX);
+      else spanR = Math.min(spanR, leftDiagX);
+      if (spanR - spanL < labelWidths[i] + style.paddingX) {
+        spanL = c.colX;
+        spanR = c.colX + c.colW;
+        align = isLast ? 'right' : 'left';
+      }
+    }
     textBlocks.push({
-      x: c.colX + style.paddingX * 0.5,
-      y: branchY - labelRowHeight,
-      width: Math.max(16, c.colW - style.paddingX),
+      x: spanL + style.paddingX * 0.5,
+      y: labelTopY,
+      width: Math.max(16, spanR - spanL - style.paddingX),
       height: labelRowHeight,
       lines: wrappedColLabels[i],
-      align: 'center',
+      align,
       verticalAlign: 'bottom',
       fontSize: labelFontSize,
       fontFamily: style.fontFamily,

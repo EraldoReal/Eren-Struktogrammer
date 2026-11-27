@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, ChevronRight } from 'lucide-react';
+import { confirmAction } from '../utils/confirm';
 import { useEditorStore } from '../store/editorStore';
 import { getTranslations } from '../store/i18n';
 import type { DiagramNode, InsertionTarget, NodeType } from '../model/types';
@@ -488,12 +489,12 @@ export const MenuBar: React.FC<MenuBarProps> = ({
                     <MenuItem
                       label={t.menu.closeProject}
                       onClick={() =>
-                        closeAndRun(() => {
+                        closeAndRun(async () => {
                           if (project.dirty) {
                             const msg = isDe
                               ? `Das Projekt „${project.name}“ enthält ungespeicherte Änderungen. Trotzdem schließen?`
                               : `Project "${project.name}" has unsaved changes. Close anyway?`;
-                            if (!window.confirm(msg)) return;
+                            if (!(await confirmAction(msg))) return;
                           }
                           closeProject(project.id);
                         })

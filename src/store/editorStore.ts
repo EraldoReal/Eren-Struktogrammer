@@ -279,6 +279,12 @@ export interface EditorState {
   addSwitchCase: (diagramId: string, nodeId: string, label?: string) => void;
   removeSwitchCase: (diagramId: string, nodeId: string, caseId: string) => void;
   toggleSwitchDefault: (diagramId: string, nodeId: string) => void;
+  updateSwitchCaseLabel: (
+    diagramId: string,
+    nodeId: string,
+    caseKey: string,
+    label: string
+  ) => void;
 
   // Canvas & View
   setZoom: (zoom: number) => void;
@@ -512,7 +518,18 @@ export const useEditorStore = create<EditorState>()((set, get) => {
     },
 
     openProjectFromContent: (raw, filePath) => {
-      const parsed = parseProject(raw);
+      const parsedRaw = parseProject(raw);
+      // Content without a file of its own (e.g. a share link) must not inherit file
+      // paths stored inside it: saving would otherwise write to the sender's path.
+      const parsed: ProjectDocument = filePath
+        ? parsedRaw
+        : (() => {
+            const { filePath: _stalePath, ...rest } = parsedRaw;
+            return {
+              ...rest,
+              diagrams: rest.diagrams.map(({ filePath: _p, ...d }) => d),
+            };
+          })();
       const derivedName = extractFileBaseName(filePath);
       // A copied project file under a different path must not share an id with an open project.
       const idClash = get().projects.some(
@@ -1349,6 +1366,27 @@ export const useEditorStore = create<EditorState>()((set, get) => {
         return updateNodeById(nodes, nodeId, (node) =>
           node.type === 'switch' ? toggleSwitchDefaultOp(node) : node
         );
+      });
+    },
+
+    updateSwitchCaseLabel: (diagramId, nodeId, caseKey, label) => {
+      mutateDiagramNodes(diagramId, (nodes) => {
+        const existing = findNodeById(nodes, nodeId);
+        if (!existing || existing.type !== 'switch') return null;
+        if (caseKey === 'default') {
+          if (existing.defaultLabel === label) return null;
+        } else {
+          const c = existing.cases.find((x) => x.id === caseKey);
+          if (!c || c.label === label) return null;
+        }
+        return updateNodeById(nodes, nodeId, (node) => {
+          if (node.type !== 'switch') return node;
+          if (caseKey === 'default') return { ...node, defaultLabel: label };
+          return {
+            ...node,
+            cases: node.cases.map((c) => (c.id === caseKey ? { ...c, label } : c)),
+          };
+        });
       });
     },
 

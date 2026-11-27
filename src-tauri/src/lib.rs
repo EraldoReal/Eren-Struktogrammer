@@ -1,4 +1,6 @@
-use tauri::{Emitter, Manager};
+use tauri::Emitter;
+#[cfg(not(target_os = "macos"))]
+use tauri::Manager;
 
 #[cfg(target_os = "macos")]
 use tauri::menu::{MenuBuilder, MenuItemBuilder, PredefinedMenuItem, SubmenuBuilder};

@@ -5,7 +5,6 @@ import {
   type LayoutTextBlock,
   type Rect,
 } from '../engine/layout';
-import { updateNodeById } from '../model/operations';
 import type { StruktogrammDocument } from '../model/types';
 import { useEditorStore } from '../store/editorStore';
 import { getTranslations } from '../store/i18n';
@@ -143,6 +142,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({
   const insertNode = useEditorStore((s) => s.insertNode);
   const updateNodeText = useEditorStore((s) => s.updateNodeText);
   const updateIfLabels = useEditorStore((s) => s.updateIfLabels);
+  const updateSwitchCaseLabel = useEditorStore((s) => s.updateSwitchCaseLabel);
   const focusDiagram = useEditorStore((s) => s.focusDiagram);
 
   const t = getTranslations(language);
@@ -227,31 +227,7 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({
         updateIfLabels(doc.id, activeTarget.nodeId, nextTrue, nextFalse);
       }
     } else if (activeTarget.kind === 'switchCase') {
-      useEditorStore.setState((state) => {
-        const projIdx = state.projects.findIndex((p) => p.id === state.activeProjectId);
-        if (projIdx === -1) return state;
-        const proj = state.projects[projIdx];
-        const diagIdx = proj.diagrams.findIndex((d) => d.id === doc.id);
-        if (diagIdx === -1) return state;
-        const diag = proj.diagrams[diagIdx];
-        const nextNodes = updateNodeById(diag.nodes, activeTarget.nodeId, (node) => {
-          if (node.type !== 'switch') return node;
-          if (activeTarget.caseKey === 'default') {
-            return { ...node, defaultLabel: activeValue };
-          }
-          return {
-            ...node,
-            cases: node.cases.map((c) =>
-              c.id === activeTarget.caseKey ? { ...c, label: activeValue } : c,
-            ),
-          };
-        });
-        const nextDiagrams = [...proj.diagrams];
-        nextDiagrams[diagIdx] = { ...diag, nodes: nextNodes, dirty: true };
-        const nextProjects = [...state.projects];
-        nextProjects[projIdx] = { ...proj, diagrams: nextDiagrams, dirty: true };
-        return { projects: nextProjects };
-      });
+      updateSwitchCaseLabel(doc.id, activeTarget.nodeId, activeTarget.caseKey, activeValue);
     }
 
     setEditTarget(null);

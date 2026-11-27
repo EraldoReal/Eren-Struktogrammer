@@ -3,6 +3,7 @@ import { check, type Update } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { getVersion } from '@tauri-apps/api/app';
 import { CheckCircle2, Download, Loader2, RefreshCw, X, AlertCircle } from 'lucide-react';
+import { confirmAction } from '../utils/confirm';
 import { useEditorStore } from '../store/editorStore';
 
 export interface UpdateModalProps {
@@ -81,7 +82,7 @@ export const UpdateModal: React.FC<UpdateModalProps> = ({ isOpen, onClose }) => 
         language === 'de'
           ? 'Es gibt ungespeicherte Änderungen. Sie gehen beim Neustart verloren. Trotzdem aktualisieren?'
           : 'You have unsaved changes that will be lost on restart. Update anyway?';
-      if (!window.confirm(msg)) return;
+      if (!(await confirmAction(msg))) return;
     }
 
     setStatus('installing');

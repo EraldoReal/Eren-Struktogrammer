@@ -421,3 +421,19 @@ describe('editorStore - review regressions', () => {
     expect(parseShareInput('invalid')).toBeNull();
   });
 });
+
+describe('editorStore - share link content', () => {
+  beforeEach(resetStore);
+
+  it('drops stored file paths when opening content without a file of its own', () => {
+    const p = createProject('Geteilt');
+    const payload = serializeProject({
+      ...p,
+      filePath: '/Users/absender/Schule/projekt.stgp',
+      diagrams: p.diagrams.map((d) => ({ ...d, filePath: '/Users/absender/a.stgr' })),
+    });
+    const opened = useEditorStore.getState().openProjectFromContent(payload);
+    expect(opened.filePath).toBeUndefined();
+    expect(opened.diagrams.every((d) => d.filePath === undefined)).toBe(true);
+  });
+});

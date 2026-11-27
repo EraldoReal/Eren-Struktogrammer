@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
+import { confirmAction } from '../utils/confirm';
 import { useEditorStore } from '../store/editorStore';
 import { getTranslations } from '../store/i18n';
 
@@ -102,14 +103,14 @@ export const ProjectTabs: React.FC = () => {
 
             <button
               type="button"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation();
                 if (project.dirty) {
                   const msg =
                     language === 'de'
                       ? `Das Projekt „${project.name}“ enthält ungespeicherte Änderungen. Trotzdem schließen?`
                       : `Project "${project.name}" has unsaved changes. Close anyway?`;
-                  if (!window.confirm(msg)) return;
+                  if (!(await confirmAction(msg))) return;
                 }
                 closeProject(project.id);
               }}

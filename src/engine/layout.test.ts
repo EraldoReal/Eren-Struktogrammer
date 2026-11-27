@@ -314,3 +314,28 @@ describe('renderDiagramToSvgString', () => {
     expect(svgTransparent).not.toContain('x="0" y="0" width="' + (layoutDiagram(doc, baseStyle).width) + '" height="' + (layoutDiagram(doc, baseStyle).height) + '" fill="#ffffff"');
   });
 });
+
+describe('switch header labels', () => {
+  it('keeps case labels clear of the header diagonal', async () => {
+    const { createNode: mkNode, createProject: mkProject, createStruktogramm: mkDoc } = await import('../model/defaults');
+    const { layoutDiagram: lay, measureTextWidth: measure } = await import('./layout');
+    const proj = mkProject('t');
+    const sw = mkNode('switch') as import('../model/types').SwitchNode;
+    sw.cases = [
+      { id: 'a', label: 'Fall 1', body: [] },
+      { id: 'b', label: 'Fall 2', body: [] },
+    ];
+    sw.hasDefault = true;
+    const layout = lay({ ...mkDoc('d'), nodes: [sw] }, proj.globalStyle);
+    const ln = layout.nodes[0];
+    const diag = ln.lines[0]; // left diagonal: (x, y) -> (lastColX, branchY)
+    const xAt = (yy: number) => diag.x1 + ((yy - diag.y1) / (diag.y2 - diag.y1)) * (diag.x2 - diag.x1);
+    for (const tb of ln.textBlocks.slice(1, -1)) {
+      const lineH = Math.ceil(tb.fontSize * 1.35);
+      const textTop = tb.y + tb.height - tb.lines.length * lineH;
+      const w = measure(tb.lines[0], tb.fontSize, tb.fontFamily);
+      const right = tb.align === 'center' ? tb.x + tb.width / 2 + w / 2 : tb.x + w;
+      expect(right).toBeLessThanOrEqual(xAt(textTop) + 0.5);
+    }
+  });
+});

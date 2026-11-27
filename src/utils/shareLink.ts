@@ -59,7 +59,12 @@ export async function createShareLink(
   project: ProjectDocument,
   lang: 'de' | 'en' = 'de',
 ): Promise<CreatedShareLink> {
-  const json = serializeProject(project);
+  // Local file paths are machine-specific (and reveal the user name): never share them.
+  const { filePath: _projectPath, ...projectWithoutPath } = project;
+  const json = serializeProject({
+    ...projectWithoutPath,
+    diagrams: project.diagrams.map(({ filePath: _diagramPath, ...d }) => d),
+  });
   const plainBytes = new TextEncoder().encode(json);
 
   const key = await crypto.subtle.generateKey(
